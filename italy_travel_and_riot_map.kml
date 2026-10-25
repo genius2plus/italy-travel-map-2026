@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>特選義大利10日行程與暴動維安地圖 (2026/11)</name>
+    <description>雄獅旅遊 26EIN03CIA 團體行程路徑、入住飯店、景點，以及法國生活成本暴動外溢義大利之警戒熱點地圖。</description>
+
+    <Style id="redAlert">
+      <IconStyle>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/red-stars.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <color>ff0000ff</color>
+        <scale>1.0</scale>
+      </LabelStyle>
+    </Style>
+
+    <Style id="orangeAlert">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/orange-blank.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="hotelStyle">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/shapes/lodging.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="spotStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="emergencyStyle">
+      <IconStyle>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/shapes/cross-hairs.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Folder>
+      <name>[警戒熱點] 法國外溢示威與維安管制區</name>
+
+      <Placemark>
+        <name>[高警戒] 米蘭大教堂廣場 (Piazza del Duomo)</name>
+        <description><![CDATA[
+          <b>風險等級：</b>高警戒 (High Alert)<br/>
+          <b>行程參訪日期：</b>第 7 天 (11/09)<br/>
+          <b>事件脈絡：</b>10月中旬受法國示威外溢影響，蒙面青年在此聚集縱火焚燒垃圾桶並與防暴警察爆發衝突。目前義大利軍隊派遣士兵常態駐守。<br/>
+          <b>團員安全指引：</b>自由活動時若察覺人群高呼口號、聚集或防暴警車出動，切勿圍觀拍照，請即刻遠離並保持手機暢通。
+        ]]></description>
+        <styleUrl>#redAlert</styleUrl>
+        <Point>
+          <coordinates>9.1895,45.4641,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>[高警戒] 米蘭 蒙特拿破崙精品街 (Via Montenapoleone)</name>
+        <description><![CDATA[
+          <b>風險等級：</b>高警戒 (搶劫/破壞破窗)<br/>
+          <b>行程參訪日期：</b>第 7 天 (11/09)<br/>
+          <b>事件脈絡：</b>先前暴動中成為洗劫破壞的主要目標之一，多數名品櫥窗曾安裝木板防護。<br/>
+          <b>團員安全指引：</b>精品購物請結伴同行，購物後請放入自備之普通素色提袋或後背包內，避免沿街高調手提昂貴品牌紙袋。
+        ]]></description>
+        <styleUrl>#redAlert</styleUrl>
+        <Point>
+          <coordinates>9.1965,45.4687,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>[中警戒] 米蘭中央火車站 (Milano Centrale)</name>
+        <description><![CDATA[
+          <b>風險等級：</b>中度警戒 (人流密集/治安複雜)<br/>
+          <b>行程關聯：</b>第 7 天搭乘法拉利高速列車前往羅馬<br/>
+          <b>團員安全指引：</b>火車站周遭常有龍蛇雜處與扒手集團，軍警定期巡檢盤查，請遵從領隊指示集體進站候車。
+        ]]></description>
+        <styleUrl>#orangeAlert</styleUrl>
+        <Point>
+          <coordinates>9.2045,45.4870,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>[中警戒] 羅馬 特米尼中央火車站 (Roma Termini)</name>
+        <description><![CDATA[
+          <b>風險等級：</b>中度警戒 (集會示威/防扒)<br/>
+          <b>行程關聯：</b>第 7 天晚間抵達羅馬，第 8 天羅馬自由行<br/>
+          <b>團員安全指引：</b>特米尼車站周遭偶有學生反生活成本遊行，入夜後周圍暗巷遊民較多，自由活動請避免單獨夜行。
+        ]]></description>
+        <styleUrl>#orangeAlert</styleUrl>
+        <Point>
+          <coordinates>12.5018,41.9010,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>[中警戒] 羅馬 威尼斯廣場與政府機關區 (Piazza Venezia)</name>
+        <description><![CDATA[
+          <b>風險等級：</b>中度警戒 (政府管制與交通管制)<br/>
+          <b>行程關聯：</b>第 8 天羅馬市區觀光<br/>
+          <b>團員安全指引：</b>義大利主要政府機構坐落於此軸線，重大集會常設有臨時警備封鎖，請留意交通動線。
+        ]]></description>
+        <styleUrl>#orangeAlert</styleUrl>
+        <Point>
+          <coordinates>12.4828,41.8955,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>[住宿飯店] 雄獅行程各晚確認飯店</name>
+
+      <Placemark>
+        <name>11/04 宿：Four Points by Sheraton Siena</name>
+        <description><![CDATA[
+          <b>地址：</b>Via Antonio Lombardi 41, 53100 Siena, Italy<br/>
+          <b>電話：</b>+39 0577 5755<br/>
+          <b>安全狀況：</b>綠燈安全。位於西恩納市郊，環境安靜優美，無抗爭騷擾。
+        ]]></description>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point>
+          <coordinates>11.3142,43.3422,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>11/05 宿：Starhotels Vespucci Florence</name>
+        <description><![CDATA[
+          <b>地址：</b>Via San Quirico 292/A, 50010 Campi Bisenzio (FI), Italy<br/>
+          <b>電話：</b>+39 055 89551<br/>
+          <b>安全狀況：</b>綠燈安全。位於佛羅倫斯近郊坎皮比森齊奧，治安良好。
+        ]]></description>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point>
+          <coordinates>11.1352,43.8242,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>11/06 宿：Hotel Ambasciatori Mestre</name>
+        <description><![CDATA[
+          <b>地址：</b>Corso del Popolo 221, 30172 Mestre, Venice, Italy<br/>
+          <b>電話：</b>+39 041 531 0699<br/>
+          <b>安全狀況：</b>綠燈安全。位於梅斯特雷繁榮主街，生活機能齊全。
+        ]]></description>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point>
+          <coordinates>12.2384,45.4854,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>11/07 宿：Four Points by Sheraton Venice Mestre</name>
+        <description><![CDATA[
+          <b>地址：</b>Via Don Luigi Peron 4, 30174 Mestre, Italy<br/>
+          <b>電話：</b>+39 041 3140500<br/>
+          <b>安全狀況：</b>綠燈安全。新興商業區連鎖四星飯店，設施齊全安全。
+        ]]></description>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point>
+          <coordinates>12.2346,45.5126,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>11/08 宿：Crowne Plaza Milan - Malpensa Airport</name>
+        <description><![CDATA[
+          <b>地址：</b>Via Ferrarin 7 Case Nuove, 21019 Somma Lombardo (VA), Italy<br/>
+          <b>電話：</b>+39 0331 21161<br/>
+          <b>安全狀況：</b>極度安全！位於米蘭西北方馬爾彭薩機場特區，完全隔絕市中心示威騷亂。
+        ]]></description>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point>
+          <coordinates>8.7062,45.6421,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>11/09 &amp; 11/10 連宿：Warmthotel Rome</name>
+        <description><![CDATA[
+          <b>地址：</b>Via Giuseppe Prezzolini 5, 00143 Roma, Italy<br/>
+          <b>電話：</b>+39 06 5014283<br/>
+          <b>安全狀況：</b>綠燈安全。位於羅馬南部 EUR 新興住宅區，遠離舊城區抗議焦點，夜間安靜。
+        ]]></description>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point>
+          <coordinates>12.4831,41.8152,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>[行程景點] 10日精選名勝打卡點</name>
+
+      <Placemark>
+        <name>西恩納 康波田野廣場 (Piazza del Campo)</name>
+        <description>世界遺產，扇型貝殼廣場與曼吉亞塔樓。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>11.3315,43.3184,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>西恩納 主教堂 (Siena Cathedral)</name>
+        <description>黑白相間大理石哥德式大教堂。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>11.3288,43.3177,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>佛羅倫斯 聖母百花大教堂 (Duomo di Firenze)</name>
+        <description>世界第三大教堂，布魯內萊斯基驚世圓頂。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>11.2560,43.7731,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>佛羅倫斯 領主廣場與老橋 (Ponte Vecchio)</name>
+        <description>文藝復興露天雕塑美術館與亞諾河古石橋。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>11.2531,43.7680,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>威尼斯 聖馬可廣場 (Piazza San Marco)</name>
+        <description>搭乘貢多拉鳳尾船，遊歷歐洲最華麗客廳與嘆息橋。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>12.3385,45.4342,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>威尼斯 慕拉諾玻璃島 (Murano)</name>
+        <description>傳承千年的世界級吹玻璃水晶重鎮。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>12.3533,45.4578,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>多洛米蒂 科蒂納丹佩佐 (Cortina d'Ampezzo)</name>
+        <description>阿爾卑斯山冬奧熱門度假勝地。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>12.1357,46.5405,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>多洛米蒂 聖坎迪多 (San Candido)</name>
+        <description>義奧邊境夢幻彩色木屋童話小鎮。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>12.2798,46.7328,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>維洛納 圓形競技場與茱麗葉故居 (Casa di Giulietta)</name>
+        <description>莎翁筆下經典浪漫古城。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>10.9984,45.4418,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>米蘭 艾曼紐二世拱廊與斯卡拉歌劇院</name>
+        <description>世界時尚流行十字迴廊與歌劇殿堂。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>9.1899,45.4659,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>羅馬 梵諦岡聖彼得大教堂 (St. Peter's Basilica)</name>
+        <description>世界最大天主教聖堂，米開朗基羅圓頂傑作。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>12.4539,41.9022,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>羅馬 鬥獸場競技場 (Colosseo)</name>
+        <description>古羅馬帝國地標，世界新七大奇蹟之一。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>12.4922,41.8902,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>羅馬 萬神殿與許願池 (Pantheon &amp; Trevi)</name>
+        <description>保存最完整的古羅馬穹頂神殿與特雷維噴泉。</description>
+        <styleUrl>#spotStyle</styleUrl>
+        <Point>
+          <coordinates>12.4833,41.9009,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>[緊急救助] 外交部代表處與通報站</name>
+
+      <Placemark>
+        <name>駐義大利台北代表處 (羅馬)</name>
+        <description><![CDATA[
+          <b>地址：</b>Viale Liegi 17, 00198 Roma, Italy<br/>
+          <b>代表處電話：</b>+39 06-9826-2800<br/>
+          <b>旅外國人急難救助專線：</b>+39 366 806 6434<br/>
+          <b>領事服務：</b>護照遺失、緊急急難協尋等外館協助。
+        ]]></description>
+        <styleUrl>#emergencyStyle</styleUrl>
+        <Point>
+          <coordinates>12.4939,41.9213,0</coordinates>
+        </Point>
+      </Placemark>
+
+      <Placemark>
+        <name>羅馬 達文西國際機場 (FCO Airport) 第一/三航廈</name>
+        <description><![CDATA[
+          <b>行程關聯：</b>第 2 天抵達 (CI075) / 第 9 天返台出境 (CI076)<br/>
+          <b>功能：</b>海關退稅、搭機返台。
+        ]]></description>
+        <styleUrl>#emergencyStyle</styleUrl>
+        <Point>
+          <coordinates>12.2462,41.8003,0</coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+
+  </Document>
+</kml>

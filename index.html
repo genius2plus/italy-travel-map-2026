@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>義大利10日行程軌跡與暴動警戒動態地圖動畫</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulse-ring {
+      0% { transform: scale(0.8); opacity: 0.9; }
+      50% { transform: scale(1.6); opacity: 0.2; }
+      100% { transform: scale(0.8); opacity: 0.9; }
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.4);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-3 md:p-6 antialiased custom-scroll">
+  <div class="max-w-7xl mx-auto space-y-5">
+
+    <!-- Header Panel -->
+    <header class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 md:p-5 shadow-2xl backdrop-blur flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 mb-2">
+          <span>[動態軌跡模擬器]</span>
+          <span>10日全程路線 x 暴動外溢示警動畫</span>
+        </div>
+        <h1 class="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+          特選義大利 10 日遊：每日行進與維安警戒動態地圖
+        </h1>
+        <p class="text-slate-400 text-xs md:text-sm mt-0.5">
+          隨時間軸自動巡航｜同步觀測法國生活成本動亂波及義大利各站（米蘭、羅馬）之即時風險
+        </p>
+      </div>
+
+      <!-- Player Quick Controls -->
+      <div class="flex items-center gap-2 shrink-0 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+        <button id="btn-play" onclick="togglePlay()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md">
+          <span id="play-icon">[播放動畫]</span>
+        </button>
+        <button onclick="resetAnimation()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition">
+          [重頭開始]
+        </button>
+        <select id="speed-select" onchange="changeSpeed(this.value)" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-2 text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+          <option value="0.5">速度: 0.5x</option>
+          <option value="1" selected>速度: 1.0x</option>
+          <option value="1.8">速度: 1.8x</option>
+          <option value="3">速度: 3.0x</option>
+        </select>
+      </div>
+    </header>
+
+    <!-- Main Workspace (Canvas Map + HUD) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+      <!-- Left: Animated Canvas Map (7 cols) -->
+      <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-2xl flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-xs font-semibold text-slate-300">即時地圖動態運算中</span>
+          </div>
+          <div class="flex items-center gap-3 text-xs">
+            <span class="text-red-400 font-semibold">[紅色: 騷亂波及區]</span>
+            <span class="text-amber-400 font-semibold">[黃色: 維安加強區]</span>
+            <span class="text-emerald-400 font-semibold">[綠色: 平穩路線]</span>
+          </div>
+        </div>
+
+        <!-- Canvas Container -->
+        <div class="relative w-full aspect-[4/5] bg-slate-950 rounded-xl overflow-hidden border border-slate-800 shadow-inner">
+          <canvas id="mapCanvas" class="w-full h-full block"></canvas>
+
+          <!-- Floating Map Overlay HUD -->
+          <div class="absolute top-3 left-3 bg-slate-900/85 backdrop-blur border border-slate-700/80 rounded-xl p-3 shadow-lg pointer-events-none max-w-[260px]">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">當前動態進度</div>
+            <div id="hud-day-title" class="text-sm font-bold text-white mt-0.5">第 1 天 (11/03)</div>
+            <div id="hud-city" class="text-xs text-indigo-300 font-medium mt-1">台北 ➔ 羅馬（飛行中）</div>
+            <div id="hud-transport" class="text-[11px] text-slate-400 mt-0.5">交通：中華航空 CI075</div>
+            <div class="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-[11px] text-slate-400">當前危安等級：</span>
+              <span id="hud-risk-badge" class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                [正常]
+              </span>
+            </div>
+          </div>
+
+          <!-- France Spillover Shockwave Marker -->
+          <div id="spillover-box" class="absolute top-16 left-6 pointer-events-none transition-opacity duration-500 opacity-60">
+            <div class="p-2 bg-red-950/70 border border-red-600/40 rounded-lg text-[11px] text-red-200">
+              <div class="font-bold text-red-400">[法國暴動源頭]</div>
+              <div>物價通膨引發抗爭</div>
+              <div class="text-[10px] text-red-300 mt-0.5">往米蘭外溢擴散 ➔</div>
+            </div>
+          </div>
+
+          <!-- Bottom Timeline Scrubber inside Map -->
+          <div class="absolute bottom-3 left-3 right-3 bg-slate-900/90 backdrop-blur border border-slate-700/80 rounded-xl p-3 shadow-lg">
+            <div class="flex items-center justify-between text-xs text-slate-300 mb-1.5 font-medium">
+              <span>時間軸拉霸 (拖曳快速切換天數)</span>
+              <span id="slider-label" class="font-mono text-indigo-300">Day 1 / 10</span>
+            </div>
+            <input id="timeline-slider" type="range" min="0" max="9" step="0.01" value="0" oninput="onSliderInput(this.value)" class="w-full accent-indigo-500 cursor-pointer h-2 bg-slate-800 rounded-lg">
+            <div class="flex justify-between text-[10px] text-slate-400 mt-1 px-1">
+              <span>11/03 台北</span>
+              <span>11/05 翡冷翠</span>
+              <span>11/07 多洛米蒂</span>
+              <span class="text-red-400 font-bold">11/09 米蘭[警戒]</span>
+              <span>11/11 羅馬</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 text-xs text-slate-400 text-center">
+          * 提示：可直接拖曳下方時間軸拉桿，或點選右側「每日卡片」快速飛躍至特定日期觀測
+        </div>
+      </div>
+
+      <!-- Right: Live Activity & Riot Safety Radar (5 cols) -->
+      <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+
+        <!-- Dynamic Live Situation Card -->
+        <div id="live-panel" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-2xl transition-all">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div>
+              <span id="panel-badge" class="px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                [綠燈平穩 / 安全旅行]
+              </span>
+              <h2 id="panel-title" class="text-xl font-bold text-white mt-1.5">第 1 天：啟程出發前往義大利</h2>
+            </div>
+            <div id="panel-date" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 font-mono">
+              2026/11/03 (二)
+            </div>
+          </div>
+
+          <!-- Situation Details Content -->
+          <div class="mt-4 space-y-3.5 text-xs md:text-sm">
+            <div>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-400">行程站點與活動概要</h3>
+              <p id="panel-itinerary" class="text-slate-200 mt-1 leading-relaxed">
+                台北桃園機場出發，搭乘中華航空 CI075 直飛羅馬達文西國際機場（飛行時間約 14 小時 40 分）。行囊整備，開啟經典義大利十日之旅。
+              </p>
+            </div>
+
+            <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800">
+              <h3 class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                <span>[當日治安與暴動外溢檢測]</span>
+              </h3>
+              <p id="panel-riot-status" class="text-slate-300 mt-1 text-xs leading-relaxed">
+                國際航線與機場管制區高度安全，義大利境內各大機場（FCO）運作正常，無抗議活動干擾。
+              </p>
+            </div>
+
+            <div id="panel-hotel-box" class="p-3 bg-slate-800/60 rounded-xl border border-slate-700/70">
+              <div class="text-xs text-slate-400">當晚入住飯店：</div>
+              <div id="panel-hotel" class="text-sm font-semibold text-white mt-0.5">機上過夜 (CI075 航班)</div>
+            </div>
+
+            <div id="panel-action-box" class="p-3 bg-indigo-950/40 border border-indigo-500/30 rounded-xl">
+              <h3 class="text-xs font-bold text-indigo-300">[團員行動提醒]</h3>
+              <p id="panel-action" class="text-xs text-slate-300 mt-1 leading-relaxed">
+                20:55 於桃園機場第一航廈 11 號櫃台完成集合報到；遵照民航局規定每人限攜 2 個行動電源隨身登機，全程禁止充電。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive 10-Day Quick Selector Cards -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-2xl">
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2.5">
+            點擊切換每日階段 (快速跳轉)
+          </h3>
+          <div class="grid grid-cols-5 gap-1.5 text-center text-xs">
+            <button onclick="jumpToDay(0)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="0">
+              <div class="font-bold">D1</div>
+              <div class="text-[10px] text-slate-400">啟程</div>
+            </button>
+            <button onclick="jumpToDay(1)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="1">
+              <div class="font-bold">D2</div>
+              <div class="text-[10px] text-emerald-400">西恩納</div>
+            </button>
+            <button onclick="jumpToDay(2)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="2">
+              <div class="font-bold">D3</div>
+              <div class="text-[10px] text-emerald-400">翡冷翠</div>
+            </button>
+            <button onclick="jumpToDay(3)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="3">
+              <div class="font-bold">D4</div>
+              <div class="text-[10px] text-emerald-400">威尼斯</div>
+            </button>
+            <button onclick="jumpToDay(4)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="4">
+              <div class="font-bold">D5</div>
+              <div class="text-[10px] text-emerald-400">多洛米蒂</div>
+            </button>
+            <button onclick="jumpToDay(5)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="5">
+              <div class="font-bold">D6</div>
+              <div class="text-[10px] text-emerald-400">維洛納</div>
+            </button>
+            <button onclick="jumpToDay(6)" class="day-tab p-2 rounded-lg bg-red-950/80 hover:bg-red-900/80 text-red-300 transition border border-red-500/50 shadow" data-day="6">
+              <div class="font-bold">D7</div>
+              <div class="text-[10px] text-red-400 font-bold">米蘭[警戒]</div>
+            </button>
+            <button onclick="jumpToDay(7)" class="day-tab p-2 rounded-lg bg-amber-950/80 hover:bg-amber-900/80 text-amber-300 transition border border-amber-500/50" data-day="7">
+              <div class="font-bold">D8</div>
+              <div class="text-[10px] text-amber-400">羅馬[中度]</div>
+            </button>
+            <button onclick="jumpToDay(8)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="8">
+              <div class="font-bold">D9</div>
+              <div class="text-[10px] text-slate-400">機場</div>
+            </button>
+            <button onclick="jumpToDay(9)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="9">
+              <div class="font-bold">D10</div>
+              <div class="text-[10px] text-slate-400">抵台</div>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const scheduleDays = [
+      {
+        day: 1,
+        date: "2026/11/03 (二)",
+        title: "第 1 天：台北啟程 ✈ 航向義大利",
+        badge: "[綠燈平穩 / 安全飛行]",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        itinerary: "台北桃園機場出發，搭乘中華航空 CI075 直飛羅馬達文西國際機場（飛行時間約 14 小時 40 分）。行囊整備，展開義大利十日之旅。",
+        riotStatus: "國際航線與機場管制區高度安全，義大利羅馬達文西機場（FCO）運作正常，無抗議活動干擾。",
+        hotel: "機上過夜 (華航 CI075 航班)",
+        action: "20:55 於桃園機場第一航廈 11 號櫃台報到；每人限攜帶 2 個行動電源隨身登機，航程全程禁止充電。",
+        transport: "中華航空 CI075 (23:25起飛)",
+        riskLevel: "normal",
+        point: { x: 340, y: 560, name: "航程中 (接近羅馬)" }
+      },
+      {
+        day: 2,
+        date: "2026/11/04 (三)",
+        title: "第 2 天：羅馬抵達 ➔ 托斯卡尼山城 西恩納 (Siena)",
+        badge: "[綠燈安全 / 中古古城]",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        itinerary: "07:05 抵達羅馬機場，專車北上 235 公里抵達托斯卡尼古都西恩納，漫步田野貝殼廣場、歡樂噴泉與西恩納主教堂。",
+        riotStatus: "托斯卡尼鄉間小鎮完全遠離大都會示威熱區，小鎮居民悠閒和平，治安極為穩定純樸。",
+        hotel: "Four Points by Sheraton Siena (西恩納市郊)",
+        action: "中古石板路斜坡較多，請穿著好走健行鞋；參觀主教堂請穿著過肩蓋膝莊重服裝。",
+        transport: "專屬空調遊覽車 (車程約 235 km)",
+        riskLevel: "normal",
+        point: { x: 285, y: 390, name: "西恩納 Siena" }
+      },
+      {
+        day: 3,
+        date: "2026/11/05 (四)",
+        title: "第 3 天：西恩納 ➔ 文藝復興之都 佛羅倫斯 (Firenze)",
+        badge: "[綠燈正常 / 景點維安]",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        itinerary: "車程 78 公里前往文藝復興發祥地佛羅倫斯。參觀聖母百花大教堂、領主廣場大衛像、老橋與但丁之家；享用帶骨牛排料理。",
+        riotStatus: "市區觀光核心景點警察巡邏頻繁，未傳出暴力外溢事件。飯店位於郊區坎皮比森齊奧，避開市區人潮。",
+        hotel: "Starhotels Vespucci Florence (坎皮比森齊奧)",
+        action: "觀光客眾多，在百花大教堂及老橋周邊請隨時看顧皮夾背包，防範傳統扒手與黑人幸運繩黨推銷。",
+        transport: "專屬遊覽車 (車程約 78 km)",
+        riskLevel: "normal",
+        point: { x: 298, y: 345, name: "佛羅倫斯 Florence" }
+      },
+      {
+        day: 4,
+        date: "2026/11/06 (五)",
+        title: "第 4 天：佛羅倫斯 ➔ 水都威尼斯 (Venezia)",
+        badge: "[綠燈安全 / 水都無阻]",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        itinerary: "前往威尼斯搭乘水上巴士造訪慕拉諾水晶玻璃島、聖馬可廣場、道奇宮、嘆息橋，並特別安排 5 人一艘貢多拉鳳尾船遊河。",
+        riotStatus: "威尼斯全島為水網結構，無車輛通行，天生具備抗議免疫屏障；當晚入住陸地梅斯特雷（Mestre）。",
+        hotel: "Hotel Ambasciatori Mestre (梅斯特雷主幹道)",
+        action: "搭乘貢多拉請依工作人員指引配戴安全設備；在 Mestre 自由活動請走大路，隨身證件勿離身。",
+        transport: "遊覽車 260 km + 威尼斯水上巴士與貢多拉",
+        riskLevel: "normal",
+        point: { x: 390, y: 240, name: "威尼斯 Venice & Mestre" }
+      },
+      {
+        day: 5,
+        date: "2026/11/07 (六)",
+        title: "第 5 天：阿爾卑斯多洛米蒂 (Cortina & San Candido)",
+        badge: "[極度安全 / 阿爾卑斯仙境]",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        itinerary: "北上進入聯合國自然遺產多洛米蒂山脈，造訪冬季奧運度假鎮科蒂納與義奧邊境童話小鎮聖坎迪多彩色木屋。",
+        riotStatus: "阿爾卑斯高山地區為全義大利治安最優良區域，空氣清新美景環繞，毫無政治與社會紛擾。",
+        hotel: "Four Points by Sheraton Venice Mestre",
+        action: "高山氣候寒冷、偶有積雪結霜，請務必攜帶保暖防風羽絨外套、毛帽與防滑防水鞋。",
+        transport: "專車穿梭阿爾卑斯高山景觀公路 (往返約 350 km)",
+        riskLevel: "normal",
+        point: { x: 410, y: 175, name: "多洛米蒂 Dolomites" }
+      },
+      {
+        day: 6,
+        date: "2026/11/08 (日)",
+        title: "第 6 天：威尼斯 ➔ 愛之城維洛納 (Verona) ➔ 米蘭近郊",
+        badge: "[綠燈安全 / 機場特區避難]",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        itinerary: "走訪莎翁筆下《羅密歐與茱麗葉》故居、全義第二大古羅馬露天競技場。傍晚專車前往米蘭馬爾彭薩機場特區飯店入住。",
+        riotStatus: "維洛納秩序祥和；今晚特別安排住在米蘭外圍 50 公里的馬爾彭薩機場旁飯店，完全遠離米蘭市中心騷亂風險。",
+        hotel: "Crowne Plaza Milan - Malpensa Airport (機場五星特區)",
+        action: "茱麗葉故居庭院狹窄遊客眾多，請把隨身背包背在胸前；今晚在機場飯店享受安寧休憩。",
+        transport: "專屬遊覽車 (威尼斯 116km 維洛納 157km 米蘭)",
+        riskLevel: "normal",
+        point: { x: 335, y: 240, name: "維洛納 Verona" }
+      },
+      {
+        day: 7,
+        date: "2026/11/09 (一)",
+        title: "第 7 天：米蘭市區觀光與自由單飛 ➔ 搭法拉利高鐵往羅馬",
+        badge: "[高警戒重點！法國外溢騷亂熱區]",
+        badgeClass: "bg-red-500/30 text-red-300 border border-red-500/50 font-bold animate-pulse",
+        itinerary: "參觀米蘭大教堂、艾曼紐二世拱廊街、斯卡拉歌劇院，品嘗油炸三明治。自由活動後，下午 15:40 搭乘法拉利高速列車（Italo）直奔羅馬。",
+        riotStatus: "【全團核心警戒日】法國暴動外溢至米蘭大教堂與蒙特拿破崙街，曾爆發砸窗與縱火。義國派遣 500 名士兵進駐，市面已平穩但有零星示威風聲。",
+        hotel: "Warmthotel Rome (羅馬南部住宅區，遠離示威)",
+        action: "自由活動切勿落單！若見黑衣蒙面人群、口號聚集或催淚瓦斯煙霧，立即轉身離開；買精品請裝於素色環保袋；提早抵達中央車站上高鐵。",
+        transport: "市區步行 + Italo 法拉利高速火車 (時速近 300 km)",
+        riskLevel: "high",
+        point: { x: 235, y: 240, name: "米蘭市中心 (高警戒)" }
+      },
+      {
+        day: 8,
+        date: "2026/11/10 (二)",
+        title: "第 8 天：羅馬全日自由活動 / 自費古羅馬深度遊",
+        badge: "[中度警戒 / 首都重兵防衛]",
+        badgeClass: "bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold",
+        itinerary: "全日自由活動，或參加外站自費行程：專車與專業導遊帶隊遊覽梵諦岡聖彼得大教堂、羅馬競技場鬥獸場、許願池、萬神殿與四河噴泉。",
+        riotStatus: "羅馬特米尼火車站及威尼斯廣場周遭曾有聲援遊行，警方加強重點古蹟與地鐵站荷槍巡邏，治安總體受控但盤查頻繁。",
+        hotel: "Warmthotel Rome (連宿第二晚)",
+        action: "強烈建議參加旅行社專車自費行程（含專用巴士與中文導遊最安全）；若自由行請避開火車站暗巷，配合軍警開包安檢。",
+        transport: "羅馬自費空調專車 或 自由活動自理交通",
+        riskLevel: "caution",
+        point: { x: 330, y: 490, name: "羅馬 Roma (中度警戒)" }
+      },
+      {
+        day: 9,
+        date: "2026/11/11 (三)",
+        title: "第 9 天：羅馬達文西國際機場辦理退稅出境 ✈ 台北",
+        badge: "[綠燈平穩 / 安全返航]",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        itinerary: "早餐後專車前往達文西機場（FCO），辦理退稅手續與行李托運，搭乘 10:25 中華航空 CI076 直飛台北，夜宿機上。",
+        riotStatus: "達文西機場維安等級高，退稅櫃台排隊秩序良好，無抗爭衝擊。",
+        hotel: "機上過夜 (華航 CI076 航班)",
+        action: "歐洲海關退稅請預留至少 3 小時提早抵達機場；貴重精品隨身攜帶以備海關查驗蓋章。",
+        transport: "中華航空 CI076 (10:25起飛，航程約 12h10m)",
+        riskLevel: "normal",
+        point: { x: 310, y: 520, name: "達文西機場 FCO" }
+      },
+      {
+        day: 10,
+        date: "2026/11/12 (四)",
+        title: "第 10 天：返抵國門 桃園國際機場",
+        badge: "[順利結案 / 平安歸國]",
+        badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        itinerary: "清晨 05:35 抵達桃園國際機場第一航廈，完成入境手續與行李領取，返回溫暖的家，滿載美好回憶順利結案！",
+        riotStatus: "全體團員平安返台。",
+        hotel: "溫暖的家",
+        action: "感謝領隊全程協助，入境若有申報名品請依國稅規定辦理。",
+        transport: "高鐵接駁 / 機場捷運返家",
+        riskLevel: "normal",
+        point: { x: 330, y: 490, name: "台北 Taipei" }
+      }
+    ];
+
+    let isPlaying = true;
+    let animProgress = 0;
+    let playSpeed = 1.0;
+    let lastTimestamp = 0;
+
+    const canvas = document.getElementById('mapCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    const routePoints = [
+      { x: 320, y: 540, label: "羅馬機場 FCO" },
+      { x: 285, y: 390, label: "西恩納 Siena" },
+      { x: 298, y: 345, label: "佛羅倫斯 Florence" },
+      { x: 390, y: 240, label: "威尼斯 Mestre" },
+      { x: 410, y: 175, label: "多洛米蒂 Cortina" },
+      { x: 390, y: 240, label: "威尼斯 Mestre" },
+      { x: 335, y: 240, label: "維洛納 Verona" },
+      { x: 195, y: 220, label: "米蘭 Malpensa" },
+      { x: 235, y: 240, label: "米蘭市中心 Duomo" },
+      { x: 325, y: 485, label: "羅馬市區 Warmthotel" },
+      { x: 310, y: 520, label: "羅馬機場 FCO" }
+    ];
+
+    const italyBorder = [
+      [160, 185], [230, 185], [300, 165], [410, 160], [460, 205],
+      [435, 255], [380, 285], [380, 335], [420, 395], [490, 465],
+      [540, 495], [560, 545], [520, 555], [460, 635], [430, 675],
+      [405, 675], [415, 615], [385, 575], [360, 535], [330, 475],
+      [280, 405], [260, 355], [210, 315], [165, 290], [145, 245],
+      [160, 185]
+    ];
+
+    function getVehiclePosition(t) {
+      const totalSegments = routePoints.length - 1;
+      const normalized = (t / 9) * totalSegments;
+      const index = Math.min(Math.floor(normalized), totalSegments - 1);
+      const frac = normalized - index;
+
+      const p1 = routePoints[index];
+      const p2 = routePoints[index + 1];
+
+      return {
+        x: p1.x + (p2.x - p1.x) * frac,
+        y: p1.y + (p2.y - p1.y) * frac
+      };
+    }
+
+    function render(timestamp) {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const dt = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+
+      if (isPlaying) {
+        animProgress += dt * 0.45 * playSpeed;
+        if (animProgress > 9) {
+          animProgress = 0;
+        }
+        updateDOMUI(animProgress);
+      }
+
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = rect.width / 600;
+      const scaleY = rect.height / 750;
+
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      ctx.save();
+      ctx.scale(scaleX, scaleY);
+
+      ctx.beginPath();
+      ctx.moveTo(italyBorder[0][0], italyBorder[0][1]);
+      for (let i = 1; i < italyBorder.length; i++) {
+        ctx.lineTo(italyBorder[i][0], italyBorder[i][1]);
+      }
+      ctx.closePath();
+      ctx.fillStyle = '#0f172a';
+      ctx.fill();
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#1e1b4b';
+      ctx.beginPath();
+      ctx.moveTo(40, 150);
+      ctx.lineTo(150, 130);
+      ctx.lineTo(145, 245);
+      ctx.lineTo(50, 260);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#4338ca';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.fillStyle = '#818cf8';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText('法國 (FRANCE)', 55, 185);
+
+      const pulseTime = timestamp * 0.003;
+      const waveRadius1 = (pulseTime * 25) % 90;
+      const waveRadius2 = ((pulseTime * 25) + 45) % 90;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(235, 240, waveRadius1, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(239, 68, 68, ${Math.max(0, 1 - waveRadius1 / 90)})`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(235, 240, waveRadius2, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(239, 68, 68, ${Math.max(0, 1 - waveRadius2 / 90)})`;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([5, 5]);
+      ctx.moveTo(110, 205);
+      ctx.quadraticCurveTo(160, 215, 230, 235);
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.beginPath();
+      ctx.moveTo(routePoints[0].x, routePoints[0].y);
+      for (let i = 1; i < routePoints.length; i++) {
+        ctx.lineTo(routePoints[i].x, routePoints[i].y);
+      }
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      const vehicle = getVehiclePosition(animProgress);
+      const totalSegments = routePoints.length - 1;
+      const currentNorm = (animProgress / 9) * totalSegments;
+      const currentIndex = Math.min(Math.floor(currentNorm), totalSegments - 1);
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(routePoints[0].x, routePoints[0].y);
+      for (let i = 1; i <= currentIndex; i++) {
+        ctx.lineTo(routePoints[i].x, routePoints[i].y);
+      }
+      ctx.lineTo(vehicle.x, vehicle.y);
+
+      const grad = ctx.createLinearGradient(150, 150, 400, 500);
+      grad.addColorStop(0, '#38bdf8');
+      grad.addColorStop(0.5, '#818cf8');
+      grad.addColorStop(1, '#ec4899');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 4;
+      ctx.shadowColor = '#6366f1';
+      ctx.shadowBlur = 8;
+      ctx.stroke();
+      ctx.restore();
+
+      const currentDayIdx = Math.floor(animProgress);
+      routePoints.forEach((pt) => {
+        const isMilanRiot = (pt.label.includes("米蘭市中心"));
+        const isRomeAlert = (pt.label.includes("羅馬市區"));
+
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, isMilanRiot ? 7 : 5, 0, Math.PI * 2);
+        if (isMilanRiot) {
+          ctx.fillStyle = '#ef4444';
+        } else if (isRomeAlert) {
+          ctx.fillStyle = '#f59e0b';
+        } else {
+          ctx.fillStyle = '#10b981';
+        }
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = isMilanRiot ? '#fca5a5' : '#cbd5e1';
+        ctx.font = isMilanRiot ? 'bold 11px sans-serif' : '10px sans-serif';
+        ctx.fillText(pt.label, pt.x + 8, pt.y + 3);
+      });
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(vehicle.x, vehicle.y, 14, 0, Math.PI * 2);
+      const isHighDay = (currentDayIdx === 6);
+      ctx.fillStyle = isHighDay ? 'rgba(239, 68, 68, 0.4)' : 'rgba(99, 102, 241, 0.4)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(vehicle.x, vehicle.y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = isHighDay ? '#ef4444' : '#6366f1';
+      ctx.fill();
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 11px sans-serif';
+      const mode = (currentDayIdx === 6 && vehicle.y > 350) ? "[高鐵直奔]" : (currentDayIdx === 0 || currentDayIdx === 8) ? "[專機]" : "[遊覽車]";
+      ctx.fillText(`雄獅團 ${mode}`, vehicle.x - 30, vehicle.y - 18);
+      ctx.restore();
+
+      ctx.restore();
+      requestAnimationFrame(render);
+    }
+
+    function updateDOMUI(progress) {
+      const dayIdx = Math.min(Math.floor(progress), 9);
+      const data = scheduleDays[dayIdx];
+
+      document.getElementById('hud-day-title').textContent = `第 ${data.day} 天 (${data.date.split(' ')[0]})`;
+      document.getElementById('hud-city').textContent = data.point.name;
+      document.getElementById('hud-transport').textContent = `交通：${data.transport}`;
+
+      const badge = document.getElementById('hud-risk-badge');
+      if (data.riskLevel === 'high') {
+        badge.textContent = '[高警戒！暴動熱區]';
+        badge.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-red-500/30 text-red-300 border border-red-500/50';
+      } else if (data.riskLevel === 'caution') {
+        badge.textContent = '[中警戒加強]';
+        badge.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40';
+      } else {
+        badge.textContent = '[綠燈平穩]';
+        badge.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+      }
+
+      const slider = document.getElementById('timeline-slider');
+      slider.value = progress;
+      document.getElementById('slider-label').textContent = `Day ${data.day} / 10`;
+
+      document.getElementById('panel-badge').textContent = data.badge;
+      document.getElementById('panel-badge').className = `px-2.5 py-0.5 rounded text-xs font-bold ${data.badgeClass}`;
+      document.getElementById('panel-title').textContent = data.title;
+      document.getElementById('panel-date').textContent = data.date;
+      document.getElementById('panel-itinerary').textContent = data.itinerary;
+      document.getElementById('panel-riot-status').textContent = data.riotStatus;
+      document.getElementById('panel-hotel').textContent = data.hotel;
+      document.getElementById('panel-action').textContent = data.action;
+
+      document.querySelectorAll('.day-tab').forEach(tab => {
+        const tabDay = parseInt(tab.getAttribute('data-day'));
+        if (tabDay === dayIdx) {
+          tab.classList.add('ring-2', 'ring-indigo-400');
+        } else {
+          tab.classList.remove('ring-2', 'ring-indigo-400');
+        }
+      });
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      document.getElementById('play-icon').textContent = isPlaying ? '[暫停動畫]' : '[繼續播放]';
+      document.getElementById('btn-play').className = isPlaying
+        ? 'px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md'
+        : 'px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md';
+    }
+
+    function resetAnimation() {
+      animProgress = 0;
+      updateDOMUI(0);
+    }
+
+    function changeSpeed(val) {
+      playSpeed = parseFloat(val);
+    }
+
+    function onSliderInput(val) {
+      animProgress = parseFloat(val);
+      updateDOMUI(animProgress);
+    }
+
+    function jumpToDay(dayIndex) {
+      animProgress = dayIndex;
+      updateDOMUI(animProgress);
+    }
+
+    window.onload = () => {
+      resizeCanvas();
+      updateDOMUI(0);
+      requestAnimationFrame(render);
+    };
+  </script>
+</body>
+</html>

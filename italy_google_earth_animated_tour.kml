@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+  <Document>
+    <name>義大利10日行程與暴動警示 3D動態巡航導覽</name>
+    <description>支援 Google Earth (Google 地球) 點擊 [播放導覽] 之 3D 鏡頭飛掠動畫，含全段行程、飯店、景點及米蘭警戒區。</description>
+
+    <Style id="redAlert">
+      <IconStyle>
+        <scale>1.3</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/red-stars.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="orangeAlert">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/orange-blank.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="hotelStyle">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/shapes/lodging.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="spotStyle">
+      <IconStyle>
+        <scale>1.0</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="routeStyle">
+      <LineStyle>
+        <color>ff00ffff</color>
+        <width>4</width>
+      </LineStyle>
+    </Style>
+
+    <gx:Tour>
+      <name>[點此播放] 義大利10日動態飛掠導覽 (Google Earth 專用)</name>
+      <gx:Playlist>
+        <gx:FlyTo>
+          <gx:duration>4.0</gx:duration>
+          <LookAt>
+            <longitude>12.5</longitude>
+            <latitude>42.5</latitude>
+            <altitude>0</altitude>
+            <heading>0</heading>
+            <tilt>20</tilt>
+            <range>1200000</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>1.5</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>4.0</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>11.3315</longitude>
+            <latitude>43.3184</latitude>
+            <altitude>0</altitude>
+            <heading>350</heading>
+            <tilt>45</tilt>
+            <range>8000</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>2.0</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>3.5</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>11.2560</longitude>
+            <latitude>43.7731</latitude>
+            <altitude>0</altitude>
+            <heading>30</heading>
+            <tilt>55</tilt>
+            <range>4500</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>2.0</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>4.0</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>12.3385</longitude>
+            <latitude>45.4342</latitude>
+            <altitude>0</altitude>
+            <heading>45</heading>
+            <tilt>60</tilt>
+            <range>6000</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>2.0</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>4.0</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>12.1357</longitude>
+            <latitude>46.5405</latitude>
+            <altitude>0</altitude>
+            <heading>15</heading>
+            <tilt>65</tilt>
+            <range>12000</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>2.5</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>3.5</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>10.9984</longitude>
+            <latitude>45.4418</latitude>
+            <altitude>0</altitude>
+            <heading>270</heading>
+            <tilt>45</tilt>
+            <range>5000</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>1.5</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>4.0</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>9.1895</longitude>
+            <latitude>45.4641</latitude>
+            <altitude>0</altitude>
+            <heading>330</heading>
+            <tilt>65</tilt>
+            <range>3200</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>3.5</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>4.5</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>11.0</longitude>
+            <latitude>43.5</latitude>
+            <altitude>0</altitude>
+            <heading>160</heading>
+            <tilt>45</tilt>
+            <range>350000</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>1.5</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>4.0</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>12.4833</longitude>
+            <latitude>41.8955</latitude>
+            <altitude>0</altitude>
+            <heading>20</heading>
+            <tilt>55</tilt>
+            <range>6000</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+        <gx:Wait><gx:duration>2.5</gx:duration></gx:Wait>
+
+        <gx:FlyTo>
+          <gx:duration>4.5</gx:duration>
+          <gx:flyToMode>smooth</gx:flyToMode>
+          <LookAt>
+            <longitude>12.5</longitude>
+            <latitude>42.8</latitude>
+            <altitude>0</altitude>
+            <heading>0</heading>
+            <tilt>25</tilt>
+            <range>900000</range>
+            <altitudeMode>relativeToGround</altitudeMode>
+          </LookAt>
+        </gx:FlyTo>
+      </gx:Playlist>
+    </gx:Tour>
+
+    <Placemark>
+      <name>雄獅10日全程軌跡 (Tour Route Line)</name>
+      <styleUrl>#routeStyle</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+          12.2462,41.8003,0
+          11.3142,43.3422,0
+          11.2560,43.7731,0
+          12.2384,45.4854,0
+          12.1357,46.5405,0
+          12.2798,46.7328,0
+          12.2384,45.4854,0
+          10.9984,45.4418,0
+          8.7062,45.6421,0
+          9.1895,45.4641,0
+          12.5018,41.9010,0
+          12.4831,41.8152,0
+          12.2462,41.8003,0
+        </coordinates>
+      </LineString>
+    </Placemark>
+
+    <Folder>
+      <name>[警戒熱點] 法國外溢示威與維安管制區</name>
+      <Placemark>
+        <name>[高警戒] 米蘭大教堂廣場 (Piazza del Duomo)</name>
+        <description>10月中旬蒙面示威與警民衝突核心，目前軍隊士兵常態巡邏。11/09 參訪自由活動時避開黑衣人群。</description>
+        <styleUrl>#redAlert</styleUrl>
+        <Point><coordinates>9.1895,45.4641,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>[高警戒] 米蘭 蒙特拿破崙精品街</name>
+        <description>精品洗劫風險區，買名牌請裝於自備素色環保袋，切勿手提顯眼紙袋。</description>
+        <styleUrl>#redAlert</styleUrl>
+        <Point><coordinates>9.1965,45.4687,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>[中警戒] 羅馬 特米尼中央車站</name>
+        <description>偶有學生抗議集會，夜間避免單獨行走周遭暗巷。</description>
+        <styleUrl>#orangeAlert</styleUrl>
+        <Point><coordinates>12.5018,41.9010,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>[住宿飯店] 雄獅確認飯店</name>
+      <Placemark>
+        <name>11/04 宿：Four Points by Sheraton Siena</name>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point><coordinates>11.3142,43.3422,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>11/05 宿：Starhotels Vespucci Florence</name>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point><coordinates>11.1352,43.8242,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>11/06 宿：Hotel Ambasciatori Mestre</name>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point><coordinates>12.2384,45.4854,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>11/07 宿：Four Points by Sheraton Venice Mestre</name>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point><coordinates>12.2346,45.5126,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>11/08 宿：Crowne Plaza Milan - Malpensa Airport</name>
+        <description>機場特區飯店，遠離市中心騷亂，極度安全。</description>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point><coordinates>8.7062,45.6421,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>11/09-10 宿：Warmthotel Rome</name>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point><coordinates>12.4831,41.8152,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+  </Document>
+</kml>

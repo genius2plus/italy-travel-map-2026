@@ -1,0 +1,112 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "[高警戒] 米蘭大教堂廣場 (Piazza del Duomo)",
+        "category": "Riot Alert",
+        "level": "High",
+        "date": "11/09",
+        "note": "10月中旬蒙面抗議衝突點，目前軍隊駐守巡邏，避免停留拍照。"
+      },
+      "geometry": { "type": "Point", "coordinates": [9.1895, 45.4641] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "[高警戒] 米蘭 蒙特拿破崙精品街",
+        "category": "Riot Alert",
+        "level": "High",
+        "date": "11/09",
+        "note": "洗劫搶劫風險區，名牌購物請低調放於素面背包或袋內。"
+      },
+      "geometry": { "type": "Point", "coordinates": [9.1965, 45.4687] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "[中警戒] 米蘭中央火車站",
+        "category": "Riot Alert",
+        "level": "Moderate",
+        "date": "11/09",
+        "note": "搭乘法拉利高鐵出發站，人潮複雜，防扒並提早進站。"
+      },
+      "geometry": { "type": "Point", "coordinates": [9.2045, 45.4870] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "[中警戒] 羅馬 特米尼中央火車站",
+        "category": "Riot Alert",
+        "level": "Moderate",
+        "date": "11/09 - 11/10",
+        "note": "高鐵抵達站，暗巷遊民多，夜間避免單獨行走。"
+      },
+      "geometry": { "type": "Point", "coordinates": [12.5018, 41.9010] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "11/04 宿：Four Points by Sheraton Siena",
+        "category": "Hotel",
+        "phone": "+39 0577 5755"
+      },
+      "geometry": { "type": "Point", "coordinates": [11.3142, 43.3422] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "11/05 宿：Starhotels Vespucci Florence",
+        "category": "Hotel",
+        "phone": "+39 055 89551"
+      },
+      "geometry": { "type": "Point", "coordinates": [11.1352, 43.8242] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "11/06 宿：Hotel Ambasciatori Mestre",
+        "category": "Hotel",
+        "phone": "+39 041 531 0699"
+      },
+      "geometry": { "type": "Point", "coordinates": [12.2384, 45.4854] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "11/07 宿：Four Points by Sheraton Venice Mestre",
+        "category": "Hotel",
+        "phone": "+39 041 3140500"
+      },
+      "geometry": { "type": "Point", "coordinates": [12.2346, 45.5126] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "11/08 宿：Crowne Plaza Milan - Malpensa Airport",
+        "category": "Hotel",
+        "phone": "+39 0331 21161"
+      },
+      "geometry": { "type": "Point", "coordinates": [8.7062, 45.6421] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "11/09-10 宿：Warmthotel Rome",
+        "category": "Hotel",
+        "phone": "+39 06 5014283"
+      },
+      "geometry": { "type": "Point", "coordinates": [12.4831, 41.8152] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "駐義大利台北代表處 (羅馬)",
+        "category": "Emergency",
+        "phone": "+39 366 806 6434"
+      },
+      "geometry": { "type": "Point", "coordinates": [12.4939, 41.9213] }
+    }
+  ]
+}
