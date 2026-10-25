@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>特選義大利10日行程與暴動維安地圖 (2026/11)</name>
-    <description>雄獅旅遊 26EIN03CIA 團體行程路徑、入住飯店、景點，以及法國生活成本暴動外溢義大利之警戒熱點地圖。</description>
+    <name>特選義大利10日行程、暴動維安與當地氣候穿搭地圖 (2026/11)</name>
+    <description>雄獅旅遊 26EIN03CIA 團體行程路徑、入住飯店、景點、11月當地預測氣溫穿搭指南，以及法國示威外溢之維安警戒熱點。</description>
 
+    <!-- Styles -->
     <Style id="redAlert">
       <IconStyle>
         <scale>1.2</scale>
@@ -44,6 +45,15 @@
       </IconStyle>
     </Style>
 
+    <Style id="snowSpotStyle">
+      <IconStyle>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/paddle/blu-stars.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
     <Style id="emergencyStyle">
       <IconStyle>
         <scale>1.2</scale>
@@ -53,6 +63,7 @@
       </IconStyle>
     </Style>
 
+    <!-- Folder 1: Riot Spillover & Alert Zones -->
     <Folder>
       <name>[警戒熱點] 法國外溢示威與維安管制區</name>
 
@@ -60,9 +71,10 @@
         <name>[高警戒] 米蘭大教堂廣場 (Piazza del Duomo)</name>
         <description><![CDATA[
           <b>風險等級：</b>高警戒 (High Alert)<br/>
-          <b>行程參訪日期：</b>第 7 天 (11/09)<br/>
+          <b>參訪日期：</b>第 7 天 (11/09)<br/>
+          <b>當地氣溫：</b>5°C ~ 12°C (深秋微寒、晨霧濕冷)<br/>
           <b>事件脈絡：</b>10月中旬受法國示威外溢影響，蒙面青年在此聚集縱火焚燒垃圾桶並與防暴警察爆發衝突。目前義大利軍隊派遣士兵常態駐守。<br/>
-          <b>團員安全指引：</b>自由活動時若察覺人群高呼口號、聚集或防暴警車出動，切勿圍觀拍照，請即刻遠離並保持手機暢通。
+          <b>團員安全與穿搭指引：</b>穿著保暖風衣與防滑好走鞋款。自由活動時若察覺人群高呼口號、聚集或防暴警車出動，切勿圍觀拍照，請即刻遠離並保持手機暢通。
         ]]></description>
         <styleUrl>#redAlert</styleUrl>
         <Point>
@@ -74,7 +86,8 @@
         <name>[高警戒] 米蘭 蒙特拿破崙精品街 (Via Montenapoleone)</name>
         <description><![CDATA[
           <b>風險等級：</b>高警戒 (搶劫/破壞破窗)<br/>
-          <b>行程參訪日期：</b>第 7 天 (11/09)<br/>
+          <b>參訪日期：</b>第 7 天 (11/09)<br/>
+          <b>當地氣溫：</b>5°C ~ 12°C<br/>
           <b>事件脈絡：</b>先前暴動中成為洗劫破壞的主要目標之一，多數名品櫥窗曾安裝木板防護。<br/>
           <b>團員安全指引：</b>精品購物請結伴同行，購物後請放入自備之普通素色提袋或後背包內，避免沿街高調手提昂貴品牌紙袋。
         ]]></description>
@@ -88,8 +101,9 @@
         <name>[中警戒] 米蘭中央火車站 (Milano Centrale)</name>
         <description><![CDATA[
           <b>風險等級：</b>中度警戒 (人流密集/治安複雜)<br/>
-          <b>行程關聯：</b>第 7 天搭乘法拉利高速列車前往羅馬<br/>
-          <b>團員安全指引：</b>火車站周遭常有龍蛇雜處與扒手集團，軍警定期巡檢盤查，請遵從領隊指示集體進站候車。
+          <b>行程關聯：</b>第 7 天 15:40 搭乘法拉利高速列車前往羅馬<br/>
+          <b>當地氣溫：</b>5°C ~ 12°C (車站內外溫差大，穿著方便穿脫的大衣)<br/>
+          <b>團員安全指引：</b>火車站周遭常有扒手集團，軍警定期巡檢盤查，請遵從領隊指示集體進站候車，行李箱勿離手。
         ]]></description>
         <styleUrl>#orangeAlert</styleUrl>
         <Point>
@@ -102,6 +116,7 @@
         <description><![CDATA[
           <b>風險等級：</b>中度警戒 (集會示威/防扒)<br/>
           <b>行程關聯：</b>第 7 天晚間抵達羅馬，第 8 天羅馬自由行<br/>
+          <b>當地氣溫：</b>7°C ~ 16°C (早晚偏涼，白天溫和)<br/>
           <b>團員安全指引：</b>特米尼車站周遭偶有學生反生活成本遊行，入夜後周圍暗巷遊民較多，自由活動請避免單獨夜行。
         ]]></description>
         <styleUrl>#orangeAlert</styleUrl>
@@ -115,7 +130,8 @@
         <description><![CDATA[
           <b>風險等級：</b>中度警戒 (政府管制與交通管制)<br/>
           <b>行程關聯：</b>第 8 天羅馬市區觀光<br/>
-          <b>團員安全指引：</b>義大利主要政府機構坐落於此軸線，重大集會常設有臨時警備封鎖，請留意交通動線。
+          <b>當地氣溫：</b>7°C ~ 16°C<br/>
+          <b>團員安全指引：</b>義大利主要政府機構坐落於此軸線，重大集會常設有臨時警備封鎖，請留意交通動線與領隊集結信號。
         ]]></description>
         <styleUrl>#orangeAlert</styleUrl>
         <Point>
@@ -124,12 +140,14 @@
       </Placemark>
     </Folder>
 
+    <!-- Folder 2: Tour Hotels -->
     <Folder>
       <name>[住宿飯店] 雄獅行程各晚確認飯店</name>
 
       <Placemark>
         <name>11/04 宿：Four Points by Sheraton Siena</name>
         <description><![CDATA[
+          <b>城市氣溫：</b>6°C ~ 14°C (丘陵托斯卡尼深秋，入夜清冷)<br/>
           <b>地址：</b>Via Antonio Lombardi 41, 53100 Siena, Italy<br/>
           <b>電話：</b>+39 0577 5755<br/>
           <b>安全狀況：</b>綠燈安全。位於西恩納市郊，環境安靜優美，無抗爭騷擾。
@@ -143,6 +161,7 @@
       <Placemark>
         <name>11/05 宿：Starhotels Vespucci Florence</name>
         <description><![CDATA[
+          <b>城市氣溫：</b>8°C ~ 15°C (多雲涼爽，早晚備薄羽絨外套)<br/>
           <b>地址：</b>Via San Quirico 292/A, 50010 Campi Bisenzio (FI), Italy<br/>
           <b>電話：</b>+39 055 89551<br/>
           <b>安全狀況：</b>綠燈安全。位於佛羅倫斯近郊坎皮比森齊奧，治安良好。
@@ -156,6 +175,7 @@
       <Placemark>
         <name>11/06 宿：Hotel Ambasciatori Mestre</name>
         <description><![CDATA[
+          <b>城市氣溫：</b>6°C ~ 13°C (潟湖海風水氣重，體感偏濕冷)<br/>
           <b>地址：</b>Corso del Popolo 221, 30172 Mestre, Venice, Italy<br/>
           <b>電話：</b>+39 041 531 0699<br/>
           <b>安全狀況：</b>綠燈安全。位於梅斯特雷繁榮主街，生活機能齊全。
@@ -169,6 +189,7 @@
       <Placemark>
         <name>11/07 宿：Four Points by Sheraton Venice Mestre</name>
         <description><![CDATA[
+          <b>城市氣溫：</b>6°C ~ 13°C (潟湖微雨，請備防風外套)<br/>
           <b>地址：</b>Via Don Luigi Peron 4, 30174 Mestre, Italy<br/>
           <b>電話：</b>+39 041 3140500<br/>
           <b>安全狀況：</b>綠燈安全。新興商業區連鎖四星飯店，設施齊全安全。
@@ -182,6 +203,7 @@
       <Placemark>
         <name>11/08 宿：Crowne Plaza Milan - Malpensa Airport</name>
         <description><![CDATA[
+          <b>城市氣溫：</b>5°C ~ 12°C (波河流域平原晨霧、濕冷)<br/>
           <b>地址：</b>Via Ferrarin 7 Case Nuove, 21019 Somma Lombardo (VA), Italy<br/>
           <b>電話：</b>+39 0331 21161<br/>
           <b>安全狀況：</b>極度安全！位於米蘭西北方馬爾彭薩機場特區，完全隔絕市中心示威騷亂。
@@ -195,6 +217,7 @@
       <Placemark>
         <name>11/09 &amp; 11/10 連宿：Warmthotel Rome</name>
         <description><![CDATA[
+          <b>城市氣溫：</b>7°C ~ 16°C (白天溫暖舒適，夜間微涼)<br/>
           <b>地址：</b>Via Giuseppe Prezzolini 5, 00143 Roma, Italy<br/>
           <b>電話：</b>+39 06 5014283<br/>
           <b>安全狀況：</b>綠燈安全。位於羅馬南部 EUR 新興住宅區，遠離舊城區抗議焦點，夜間安靜。
@@ -206,12 +229,17 @@
       </Placemark>
     </Folder>
 
+    <!-- Folder 3: Key Itinerary Attractions & Climate Advice -->
     <Folder>
-      <name>[行程景點] 10日精選名勝打卡點</name>
+      <name>[行程景點與氣溫] 10日精選名勝與穿搭指南</name>
 
       <Placemark>
         <name>西恩納 康波田野廣場 (Piazza del Campo)</name>
-        <description>世界遺產，扇型貝殼廣場與曼吉亞塔樓。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 2 天 (11/04)<br/>
+          <b>氣溫穿搭：</b>6°C ~ 14°C，托斯卡尼山城開闊地形風大，建議針織衫搭配防風外套。<br/>
+          <b>亮點：</b>世界遺產，扇型貝殼廣場與曼吉亞塔樓。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>11.3315,43.3184,0</coordinates>
@@ -220,7 +248,11 @@
 
       <Placemark>
         <name>西恩納 主教堂 (Siena Cathedral)</name>
-        <description>黑白相間大理石哥德式大教堂。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 2 天 (11/04)<br/>
+          <b>氣溫穿搭：</b>6°C ~ 14°C。教堂內部石壁陰涼，注意保暖。<br/>
+          <b>亮點：</b>黑白相間大理石哥德式大教堂。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>11.3288,43.3177,0</coordinates>
@@ -229,7 +261,12 @@
 
       <Placemark>
         <name>佛羅倫斯 聖母百花大教堂 (Duomo di Firenze)</name>
-        <description>世界第三大教堂，布魯內萊斯基驚世圓頂。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 3 天 (11/05)<br/>
+          <b>氣溫穿搭：</b>8°C ~ 15°C，秋高氣爽，建議洋蔥式穿法（長袖襯衫+羊毛背心/輕羽絨外套）。<br/>
+          <b>自理餐提醒：</b>本日午餐自理，可於教堂周邊品嘗佛羅倫斯牛排或牛肚包。<br/>
+          <b>亮點：</b>世界第三大教堂，布魯內萊斯基驚世圓頂。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>11.2560,43.7731,0</coordinates>
@@ -238,7 +275,11 @@
 
       <Placemark>
         <name>佛羅倫斯 領主廣場與老橋 (Ponte Vecchio)</name>
-        <description>文藝復興露天雕塑美術館與亞諾河古石橋。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 3 天 (11/05)<br/>
+          <b>氣溫穿搭：</b>8°C ~ 15°C，河邊風稍大。<br/>
+          <b>亮點：</b>文藝復興露天雕塑美術館與亞諾河古石橋。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>11.2531,43.7680,0</coordinates>
@@ -247,7 +288,12 @@
 
       <Placemark>
         <name>威尼斯 聖馬可廣場 (Piazza San Marco)</name>
-        <description>搭乘貢多拉鳳尾船，遊歷歐洲最華麗客廳與嘆息橋。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 4 天 (11/06)<br/>
+          <b>氣溫穿搭：</b>6°C ~ 13°C，海島潮濕海風，體感溫度低於實際溫度！必備防風防潑水保暖外套、圍巾與防滑步行鞋。<br/>
+          <b>自理餐提醒：</b>本日午餐自理，可在聖馬可廣場周邊小巷品嘗墨魚麵或義式小食 Cicchetti。<br/>
+          <b>亮點：</b>搭乘貢多拉鳳尾船，遊歷歐洲最華麗客廳與嘆息橋。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>12.3385,45.4342,0</coordinates>
@@ -256,7 +302,11 @@
 
       <Placemark>
         <name>威尼斯 慕拉諾玻璃島 (Murano)</name>
-        <description>傳承千年的世界級吹玻璃水晶重鎮。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 4 天 (11/06)<br/>
+          <b>氣溫穿搭：</b>6°C ~ 13°C，水上巴士渡輪迎風面寒冷，請扣緊大衣防風。<br/>
+          <b>亮點：</b>傳承千年的世界級吹玻璃水晶工藝重鎮。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>12.3533,45.4578,0</coordinates>
@@ -264,18 +314,28 @@
       </Placemark>
 
       <Placemark>
-        <name>多洛米蒂 科蒂納丹佩佐 (Cortina d'Ampezzo)</name>
-        <description>阿爾卑斯山冬奧熱門度假勝地。</description>
-        <styleUrl>#spotStyle</styleUrl>
+        <name>[寒冷極限] 多洛米蒂 科蒂納丹佩佐 (Cortina d'Ampezzo)</name>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 5 天 (11/07)<br/>
+          <b>氣溫穿搭：</b>-3°C ~ 6°C！阿爾卑斯高山嚴寒，早晚步道背陰處極易結霜薄冰！<br/>
+          <b>裝備警示：</b>本行程最冷的一天！請務必穿著防風防水保暖重磅羽絨大衣、保暖發熱衣、毛線帽、防寒手套、圍巾，以及防滑刻紋保暖短靴或登山鞋！<br/>
+          <b>自理餐提醒：</b>本日午餐自理，建議享用阿爾卑斯山區熱起司玉米糊 (Polenta) 或高熱量熱湯。<br/>
+          <b>亮點：</b>阿爾卑斯山世界自然遺產、冬奧熱門度假勝地。
+        ]]></description>
+        <styleUrl>#snowSpotStyle</styleUrl>
         <Point>
           <coordinates>12.1357,46.5405,0</coordinates>
         </Point>
       </Placemark>
 
       <Placemark>
-        <name>多洛米蒂 聖坎迪多 (San Candido)</name>
-        <description>義奧邊境夢幻彩色木屋童話小鎮。</description>
-        <styleUrl>#spotStyle</styleUrl>
+        <name>[寒冷極限] 多洛米蒂 聖坎迪多 (San Candido)</name>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 5 天 (11/07)<br/>
+          <b>氣溫穿搭：</b>-3°C ~ 6°C！高山冷冽空氣。<br/>
+          <b>亮點：</b>義奧邊境夢幻彩色木屋童話小鎮、羅馬式修道院參訪。
+        ]]></description>
+        <styleUrl>#snowSpotStyle</styleUrl>
         <Point>
           <coordinates>12.2798,46.7328,0</coordinates>
         </Point>
@@ -283,7 +343,11 @@
 
       <Placemark>
         <name>維洛納 圓形競技場與茱麗葉故居 (Casa di Giulietta)</name>
-        <description>莎翁筆下經典浪漫古城。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 6 天 (11/08)<br/>
+          <b>氣溫穿搭：</b>5°C ~ 12°C，多雲轉涼，保暖針織毛衣與長版大衣。<br/>
+          <b>亮點：</b>莎翁筆下經典浪漫古城、阿迪傑河畔風光。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>10.9984,45.4418,0</coordinates>
@@ -292,8 +356,13 @@
 
       <Placemark>
         <name>米蘭 艾曼紐二世拱廊與斯卡拉歌劇院</name>
-        <description>世界時尚流行十字迴廊與歌劇殿堂。</description>
-        <styleUrl>#spotStyle</styleUrl>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 7 天 (11/09)<br/>
+          <b>氣溫穿搭：</b>5°C ~ 12°C，深秋濕冷晨霧，建議大衣與保暖圍巾。<br/>
+          <b>自理餐提醒：</b>本日午餐自理，拱廊街周邊有精緻義大利三明治與米蘭燉飯、炸牛排。<br/>
+          <b>亮點：</b>世界時尚流行十字迴廊與歌劇殿堂，外溢暴動高警戒區。
+        ]]></description>
+        <styleUrl>#redAlert</styleUrl>
         <Point>
           <coordinates>9.1899,45.4659,0</coordinates>
         </Point>
@@ -301,7 +370,11 @@
 
       <Placemark>
         <name>羅馬 梵諦岡聖彼得大教堂 (St. Peter's Basilica)</name>
-        <description>世界最大天主教聖堂，米開朗基羅圓頂傑作。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 8 天 (11/10)<br/>
+          <b>氣溫穿搭：</b>7°C ~ 16°C，陽光普照但教堂內陰涼。進入聖殿請著長褲/過膝長裙，肩膀不可裸露。<br/>
+          <b>亮點：</b>世界最大天主教聖堂，米開朗基羅圓頂傑作與聖殤像。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>12.4539,41.9022,0</coordinates>
@@ -310,7 +383,11 @@
 
       <Placemark>
         <name>羅馬 鬥獸場競技場 (Colosseo)</name>
-        <description>古羅馬帝國地標，世界新七大奇蹟之一。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 8 天 (11/10)<br/>
+          <b>氣溫穿搭：</b>7°C ~ 16°C，日間步行舒適。<br/>
+          <b>亮點：</b>古羅馬帝國地標，世界新七大奇蹟之一。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>12.4922,41.8902,0</coordinates>
@@ -319,7 +396,11 @@
 
       <Placemark>
         <name>羅馬 萬神殿與許願池 (Pantheon &amp; Trevi)</name>
-        <description>保存最完整的古羅馬穹頂神殿與特雷維噴泉。</description>
+        <description><![CDATA[
+          <b>參訪日程：</b>第 8 天 (11/10)<br/>
+          <b>氣溫穿搭：</b>7°C ~ 16°C。<br/>
+          <b>亮點：</b>保存最完整的古羅馬穹頂神殿與特雷維噴泉，金杯咖啡打卡點。
+        ]]></description>
         <styleUrl>#spotStyle</styleUrl>
         <Point>
           <coordinates>12.4833,41.9009,0</coordinates>
@@ -327,6 +408,7 @@
       </Placemark>
     </Folder>
 
+    <!-- Folder 4: Emergency Contacts & Diplomatic Mission -->
     <Folder>
       <name>[緊急救助] 外交部代表處與通報站</name>
 
@@ -334,9 +416,9 @@
         <name>駐義大利台北代表處 (羅馬)</name>
         <description><![CDATA[
           <b>地址：</b>Viale Liegi 17, 00198 Roma, Italy<br/>
-          <b>代表處電話：</b>+39 06-9826-2800<br/>
-          <b>旅外國人急難救助專線：</b>+39 366 806 6434<br/>
-          <b>領事服務：</b>護照遺失、緊急急難協尋等外館協助。
+          <b>代表處代表號：</b>+39 06-9826-2800<br/>
+          <b>旅外國人急難救助專線：</b>+39 366 806 6434 (專供緊急危難通報)<br/>
+          <b>領事服務：</b>護照遺失、重大變故外館法律與緊急聯絡協助。
         ]]></description>
         <styleUrl>#emergencyStyle</styleUrl>
         <Point>
@@ -347,8 +429,8 @@
       <Placemark>
         <name>羅馬 達文西國際機場 (FCO Airport) 第一/三航廈</name>
         <description><![CDATA[
-          <b>行程關聯：</b>第 2 天抵達 (CI075) / 第 9 天返台出境 (CI076)<br/>
-          <b>功能：</b>海關退稅、搭機返台。
+          <b>行程關聯：</b>第 2 天抵達 (CI075) / 第 9 天返台出境 (CI076 18:15起飛)<br/>
+          <b>功能：</b>海關退稅、退稅單蓋章、搭機返台。
         ]]></description>
         <styleUrl>#emergencyStyle</styleUrl>
         <Point>
