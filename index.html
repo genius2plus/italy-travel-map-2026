@@ -38,23 +38,29 @@
           特選義大利 10 日遊：每日行進與維安警戒動態地圖
         </h1>
         <p class="text-slate-400 text-xs md:text-sm mt-0.5">
-          隨時間軸自動巡航｜同步觀測法國生活成本動亂波及義大利各站（米蘭、羅馬）之即時風險與當地氣候
+          隨時間軸自動巡航｜同步觀測法國生活成本動亂波及義大利各站（米蘭、羅馬）之即時風險
         </p>
       </div>
 
       <!-- Player Quick Controls -->
-      <div class="flex items-center gap-2 shrink-0 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+      <div class="flex items-center gap-1.5 md:gap-2 shrink-0 bg-slate-950/80 p-2 rounded-xl border border-slate-800 flex-wrap">
+        <button onclick="stepDay(-1)" class="px-2.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition" title="切換至前一天">
+          [◀ 上一天]
+        </button>
         <button id="btn-play" onclick="togglePlay()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md">
-          <span id="play-icon">[播放動畫]</span>
+          <span id="play-icon">[▶ 播放動畫]</span>
+        </button>
+        <button onclick="stepDay(1)" class="px-2.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition" title="切換至下一天">
+          [下一天 ▶]
         </button>
         <button onclick="resetAnimation()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition">
           [重頭開始]
         </button>
         <select id="speed-select" onchange="changeSpeed(this.value)" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-2.5 py-2 text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-          <option value="0.5">速度: 0.5x</option>
-          <option value="1" selected>速度: 1.0x</option>
-          <option value="1.8">速度: 1.8x</option>
-          <option value="3">速度: 3.0x</option>
+          <option value="0.5">速度: 慢速 (約16秒/天)</option>
+          <option value="1.0" selected>速度: 適中 (約8秒/天)</option>
+          <option value="1.8">速度: 稍快 (約4.5秒/天)</option>
+          <option value="3.0">速度: 快速 (約2.5秒/天)</option>
         </select>
       </div>
     </header>
@@ -72,7 +78,6 @@
           <div class="flex items-center gap-3 text-xs">
             <span class="text-red-400 font-semibold">[紅色: 騷亂波及區]</span>
             <span class="text-amber-400 font-semibold">[黃色: 維安加強區]</span>
-            <span class="text-sky-400 font-semibold">[冰藍: 多洛米蒂-3°C]</span>
             <span class="text-emerald-400 font-semibold">[綠色: 平穩路線]</span>
           </div>
         </div>
@@ -82,7 +87,7 @@
           <canvas id="mapCanvas" class="w-full h-full block"></canvas>
 
           <!-- Floating Map Overlay HUD -->
-          <div class="absolute top-3 left-3 bg-slate-900/85 backdrop-blur border border-slate-700/80 rounded-xl p-3 shadow-lg pointer-events-none max-w-[270px]">
+          <div class="absolute top-3 left-3 bg-slate-900/90 backdrop-blur border border-slate-700/80 rounded-xl p-3 shadow-lg pointer-events-none max-w-[270px] z-10">
             <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">當前動態進度</div>
             <div id="hud-day-title" class="text-sm font-bold text-white mt-0.5">第 1 天 (11/03)</div>
             <div id="hud-city" class="text-xs text-indigo-300 font-medium mt-1">台北 ➔ 羅馬（飛行中）</div>
@@ -97,14 +102,10 @@
                 [正常]
               </span>
             </div>
-          </div>
-
-          <!-- France Spillover Shockwave Marker -->
-          <div id="spillover-box" class="absolute top-16 left-6 pointer-events-none transition-opacity duration-500 opacity-60">
-            <div class="p-2 bg-red-950/70 border border-red-600/40 rounded-lg text-[11px] text-red-200">
-              <div class="font-bold text-red-400">[法國暴動源頭]</div>
-              <div>物價通膨引發抗爭</div>
-              <div class="text-[10px] text-red-300 mt-0.5">往米蘭外溢擴散 ➔</div>
+            <!-- Alert bar when Milan riot spillover is reached (clean non-overlapping flow) -->
+            <div id="hud-alert-notice" class="hidden mt-2 text-[10.5px] text-red-200 bg-red-950/80 p-2 rounded-lg border border-red-500/50">
+              <div class="font-bold text-red-400">[法國暴動外溢警戒]</div>
+              <div>米蘭大教堂與蒙特拿破崙街示威熱區</div>
             </div>
           </div>
 
@@ -118,7 +119,7 @@
             <div class="flex justify-between text-[10px] text-slate-400 mt-1 px-1">
               <span>11/03 台北</span>
               <span>11/05 翡冷翠</span>
-              <span>11/07 多洛米蒂[-3°C]</span>
+              <span>11/07 多洛米蒂</span>
               <span class="text-red-400 font-bold">11/09 米蘭[警戒]</span>
               <span>11/11 羅馬</span>
             </div>
@@ -140,7 +141,7 @@
               <span id="panel-badge" class="px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                 [綠燈平穩 / 安全旅行]
               </span>
-              <h2 id="panel-title" class="text-xl font-bold text-white mt-1.5">第 1 天：台北啟程 ✈ 航向義大利 (CI075)</h2>
+              <h2 id="panel-title" class="text-xl font-bold text-white mt-1.5">第 1 天：啟程出發前往義大利</h2>
             </div>
             <div id="panel-date" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 font-mono">
               2026/11/03 (二)
@@ -152,7 +153,7 @@
             <div>
               <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-400">行程站點與活動概要</h3>
               <p id="panel-itinerary" class="text-slate-200 mt-1 leading-relaxed">
-                台北桃園國際機場集合，搭乘中華航空 CI075 直飛羅馬達文西國際機場（23:25起飛，飛行時間約 14 小時 40 分）。夜宿機上。
+                台北桃園機場出發，搭乘中華航空 CI075 直飛羅馬達文西國際機場（飛行時間約 14 小時 40 分）。行囊整備，開啟經典義大利十日之旅。
               </p>
             </div>
 
@@ -192,7 +193,7 @@
             <div id="panel-action-box" class="p-3 bg-indigo-950/40 border border-indigo-500/30 rounded-xl">
               <h3 class="text-xs font-bold text-indigo-300">[團員行動提醒]</h3>
               <p id="panel-action" class="text-xs text-slate-300 mt-1 leading-relaxed">
-                【重點集合】11/03 20:55 於桃園機場第一航廈華航 11 號櫃台集合；攜帶合格行動電源隨身登機，航程全程禁止充電。
+                20:55 於桃園機場第一航廈 11 號櫃台完成集合報到；遵照民航局規定每人限攜 2 個行動電源隨身登機，全程禁止充電。
               </p>
             </div>
           </div>
@@ -206,43 +207,43 @@
           <div class="grid grid-cols-5 gap-1.5 text-center text-xs">
             <button onclick="jumpToDay(0)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="0">
               <div class="font-bold">D1</div>
-              <div class="text-[10px] text-slate-400">啟程 23°C</div>
+              <div class="text-[10px] text-slate-400">啟程</div>
             </button>
             <button onclick="jumpToDay(1)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="1">
               <div class="font-bold">D2</div>
-              <div class="text-[10px] text-emerald-400">西恩納 14°C</div>
+              <div class="text-[10px] text-emerald-400">西恩納</div>
             </button>
             <button onclick="jumpToDay(2)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="2">
               <div class="font-bold">D3</div>
-              <div class="text-[10px] text-emerald-400">翡冷翠 15°C</div>
+              <div class="text-[10px] text-emerald-400">翡冷翠</div>
             </button>
             <button onclick="jumpToDay(3)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="3">
               <div class="font-bold">D4</div>
-              <div class="text-[10px] text-emerald-400">威尼斯 13°C</div>
+              <div class="text-[10px] text-emerald-400">威尼斯</div>
             </button>
-            <button onclick="jumpToDay(4)" class="day-tab p-2 rounded-lg bg-sky-950/80 hover:bg-sky-900/80 text-sky-300 transition border border-sky-500/50" data-day="4">
+            <button onclick="jumpToDay(4)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="4">
               <div class="font-bold">D5</div>
-              <div class="text-[10px] text-sky-300 font-bold">多洛米蒂 -3°C</div>
+              <div class="text-[10px] text-emerald-400">多洛米蒂</div>
             </button>
             <button onclick="jumpToDay(5)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="5">
               <div class="font-bold">D6</div>
-              <div class="text-[10px] text-emerald-400">維洛納 12°C</div>
+              <div class="text-[10px] text-emerald-400">維洛納</div>
             </button>
             <button onclick="jumpToDay(6)" class="day-tab p-2 rounded-lg bg-red-950/80 hover:bg-red-900/80 text-red-300 transition border border-red-500/50 shadow" data-day="6">
               <div class="font-bold">D7</div>
-              <div class="text-[10px] text-red-400 font-bold">米蘭 12°C[警]</div>
+              <div class="text-[10px] text-red-400 font-bold">米蘭[警戒]</div>
             </button>
             <button onclick="jumpToDay(7)" class="day-tab p-2 rounded-lg bg-amber-950/80 hover:bg-amber-900/80 text-amber-300 transition border border-amber-500/50" data-day="7">
               <div class="font-bold">D8</div>
-              <div class="text-[10px] text-amber-400">羅馬 16°C</div>
+              <div class="text-[10px] text-amber-400">羅馬[中度]</div>
             </button>
             <button onclick="jumpToDay(8)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="8">
               <div class="font-bold">D9</div>
-              <div class="text-[10px] text-slate-400">機場 15°C</div>
+              <div class="text-[10px] text-slate-400">機場</div>
             </button>
             <button onclick="jumpToDay(9)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="9">
               <div class="font-bold">D10</div>
-              <div class="text-[10px] text-slate-400">抵台 25°C</div>
+              <div class="text-[10px] text-slate-400">抵台</div>
             </button>
           </div>
         </div>
@@ -252,6 +253,7 @@
   </div>
 
   <script>
+    // Day-by-Day Calibrated Data Model with Local Temperature
     const scheduleDays = [
       {
         day: 1,
@@ -425,14 +427,16 @@
       }
     ];
 
-    let isPlaying = true;
-    let animProgress = 0;
+    // State
+    let isPlaying = false; // 預設不自動播放，由使用者主動點擊播放或按天閱讀
+    let animProgress = 0; // 0 to 9
     let playSpeed = 1.0;
     let lastTimestamp = 0;
 
     const canvas = document.getElementById('mapCanvas');
     const ctx = canvas.getContext('2d');
 
+    // High DPI Canvas resize
     function resizeCanvas() {
       const rect = canvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
@@ -442,20 +446,22 @@
     }
     window.addEventListener('resize', resizeCanvas);
 
+    // Route Waypoints on 600x750 virtual coordinate space
     const routePoints = [
-      { x: 320, y: 540, label: "羅馬機場 FCO", temp: "8°C~15°C" },
-      { x: 285, y: 390, label: "西恩納 Siena", temp: "6°C~14°C" },
-      { x: 298, y: 345, label: "佛羅倫斯 Florence", temp: "8°C~15°C" },
-      { x: 390, y: 240, label: "威尼斯 Mestre", temp: "6°C~13°C" },
-      { x: 410, y: 175, label: "多洛米蒂 Cortina", temp: "-3°C~6°C ❄" },
-      { x: 390, y: 240, label: "威尼斯 Mestre", temp: "6°C~13°C" },
-      { x: 335, y: 240, label: "維洛納 Verona", temp: "5°C~12°C" },
-      { x: 195, y: 220, label: "米蘭 Malpensa", temp: "5°C~12°C" },
-      { x: 235, y: 240, label: "米蘭市中心 Duomo", temp: "5°C~12°C" },
-      { x: 325, y: 485, label: "羅馬市區 Warmthotel", temp: "7°C~16°C" },
-      { x: 310, y: 520, label: "羅馬機場 FCO", temp: "8°C~15°C" }
+      { x: 320, y: 540, label: "羅馬機場 FCO", temp: "8°C~15°C" },       // D1 / D2
+      { x: 285, y: 390, label: "西恩納 Siena", temp: "6°C~14°C" },          // D2
+      { x: 298, y: 345, label: "佛羅倫斯 Florence", temp: "8°C~15°C" },     // D3
+      { x: 390, y: 240, label: "威尼斯 Mestre", temp: "6°C~13°C" },         // D4
+      { x: 410, y: 175, label: "多洛米蒂 Cortina", temp: "-3°C~6°C ❄" },    // D5
+      { x: 390, y: 240, label: "威尼斯 Mestre", temp: "6°C~13°C" },         // D5 return
+      { x: 335, y: 240, label: "維洛納 Verona", temp: "5°C~12°C" },         // D6
+      { x: 195, y: 220, label: "米蘭 Malpensa", temp: "5°C~12°C" },         // D6 Hotel
+      { x: 235, y: 240, label: "米蘭市中心 Duomo", temp: "5°C~12°C" },      // D7 Riot Area
+      { x: 325, y: 485, label: "羅馬市區 Warmthotel", temp: "7°C~16°C" },   // D7 / D8
+      { x: 310, y: 520, label: "羅馬機場 FCO", temp: "8°C~15°C" }          // D9
     ];
 
+    // Italy Mainland Stylized Polygon
     const italyBorder = [
       [160, 185], [230, 185], [300, 165], [410, 160], [460, 205],
       [435, 255], [380, 285], [380, 335], [420, 395], [490, 465],
@@ -465,7 +471,9 @@
       [160, 185]
     ];
 
+    // Helper: Interpolate along route
     function getVehiclePosition(t) {
+      // t is 0 to 9
       const totalSegments = routePoints.length - 1;
       const normalized = (t / 9) * totalSegments;
       const index = Math.min(Math.floor(normalized), totalSegments - 1);
@@ -480,19 +488,27 @@
       };
     }
 
+    // Main Canvas Render
     function render(timestamp) {
       if (!lastTimestamp) lastTimestamp = timestamp;
       const dt = (timestamp - lastTimestamp) / 1000;
       lastTimestamp = timestamp;
 
       if (isPlaying) {
-        animProgress += dt * 0.45 * playSpeed;
-        if (animProgress > 9) {
-          animProgress = 0;
+        // 大幅調慢動畫速度：每秒前進 0.12，相當於每整天約 8.3 秒停留，方便詳細閱讀
+        animProgress += dt * 0.12 * playSpeed;
+        if (animProgress >= 9) {
+          animProgress = 9;
+          isPlaying = false;
+          const playBtn = document.getElementById('btn-play');
+          const playIcon = document.getElementById('play-icon');
+          if (playIcon) playIcon.textContent = '[▶ 重新播放]';
+          if (playBtn) playBtn.className = 'px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md';
         }
         updateDOMUI(animProgress);
       }
 
+      // Drawing
       const rect = canvas.getBoundingClientRect();
       const scaleX = rect.width / 600;
       const scaleY = rect.height / 750;
@@ -501,6 +517,7 @@
       ctx.save();
       ctx.scale(scaleX, scaleY);
 
+      // 1. Draw Italy Base Map
       ctx.beginPath();
       ctx.moveTo(italyBorder[0][0], italyBorder[0][1]);
       for (let i = 1; i < italyBorder.length; i++) {
@@ -513,6 +530,7 @@
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
+      // France Border area
       ctx.fillStyle = '#1e1b4b';
       ctx.beginPath();
       ctx.moveTo(40, 150);
@@ -527,12 +545,22 @@
 
       ctx.fillStyle = '#818cf8';
       ctx.font = 'bold 12px sans-serif';
-      ctx.fillText('法國 (FRANCE)', 55, 185);
+      ctx.fillText('法國 (FRANCE)', 55, 175);
 
+      // France riot origin badge drawn directly on canvas
+      ctx.fillStyle = '#f87171';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.fillText('[示威動亂源頭]', 55, 195);
+      ctx.fillStyle = '#fca5a5';
+      ctx.font = '9px sans-serif';
+      ctx.fillText('物價通膨外溢 ➔', 55, 210);
+
+      // 2. Animated France -> Milan Riot Shockwaves (Spillover)
       const pulseTime = timestamp * 0.003;
       const waveRadius1 = (pulseTime * 25) % 90;
       const waveRadius2 = ((pulseTime * 25) + 45) % 90;
 
+      // Draw red pulse in Milan
       ctx.save();
       ctx.beginPath();
       ctx.arc(235, 240, waveRadius1, 0, Math.PI * 2);
@@ -547,6 +575,7 @@
       ctx.stroke();
       ctx.restore();
 
+      // Spillover arrow from France to Milan
       ctx.save();
       ctx.beginPath();
       ctx.setLineDash([5, 5]);
@@ -557,6 +586,7 @@
       ctx.stroke();
       ctx.restore();
 
+      // 3. Draw Entire Tour Path (Faint background)
       ctx.beginPath();
       ctx.moveTo(routePoints[0].x, routePoints[0].y);
       for (let i = 1; i < routePoints.length; i++) {
@@ -566,6 +596,7 @@
       ctx.lineWidth = 3;
       ctx.stroke();
 
+      // 4. Draw Traveled Path (Glowing dynamic trail)
       const vehicle = getVehiclePosition(animProgress);
       const totalSegments = routePoints.length - 1;
       const currentNorm = (animProgress / 9) * totalSegments;
@@ -579,6 +610,7 @@
       }
       ctx.lineTo(vehicle.x, vehicle.y);
 
+      // Gradient stroke
       const grad = ctx.createLinearGradient(150, 150, 400, 500);
       grad.addColorStop(0, '#38bdf8');
       grad.addColorStop(0.5, '#818cf8');
@@ -590,6 +622,7 @@
       ctx.stroke();
       ctx.restore();
 
+      // 5. City Static Markers
       const currentDayIdx = Math.floor(animProgress);
       routePoints.forEach((pt) => {
         const isMilanRiot = (pt.label.includes("米蘭市中心"));
@@ -612,15 +645,18 @@
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
+        // City text
         ctx.fillStyle = isMilanRiot ? '#fca5a5' : isDolomitesIce ? '#bae6fd' : '#cbd5e1';
         ctx.font = isMilanRiot ? 'bold 11px sans-serif' : '10px sans-serif';
         ctx.fillText(pt.label, pt.x + 8, pt.y - 1);
 
+        // City Temperature Sub-tag on Canvas
         ctx.fillStyle = isDolomitesIce ? '#38bdf8' : '#94a3b8';
         ctx.font = '9px sans-serif';
         ctx.fillText(pt.temp, pt.x + 8, pt.y + 11);
       });
 
+      // 6. Current Vehicle Indicator (Pulsing Radar Pin)
       ctx.save();
       ctx.beginPath();
       ctx.arc(vehicle.x, vehicle.y, 14, 0, Math.PI * 2);
@@ -636,6 +672,7 @@
       ctx.lineWidth = 2.5;
       ctx.stroke();
 
+      // Vehicle Label Tag
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 11px sans-serif';
       const mode = (currentDayIdx === 6 && vehicle.y > 350) ? "[高鐵直奔]" : (currentDayIdx === 0 || currentDayIdx === 8) ? "[專機]" : "[遊覽車]";
@@ -646,10 +683,12 @@
       requestAnimationFrame(render);
     }
 
+    // UI Updates synchronized with progress
     function updateDOMUI(progress) {
       const dayIdx = Math.min(Math.floor(progress), 9);
       const data = scheduleDays[dayIdx];
 
+      // Update HUD
       document.getElementById('hud-day-title').textContent = `第 ${data.day} 天 (${data.date.split(' ')[0]})`;
       document.getElementById('hud-city').textContent = data.point.name;
       document.getElementById('hud-temp-val').textContent = data.temp;
@@ -667,10 +706,22 @@
         badge.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
       }
 
+      // Update HUD alert notice for Milan spillover
+      const alertNotice = document.getElementById('hud-alert-notice');
+      if (alertNotice) {
+        if (data.riskLevel === 'high') {
+          alertNotice.classList.remove('hidden');
+        } else {
+          alertNotice.classList.add('hidden');
+        }
+      }
+
+      // Update Slider
       const slider = document.getElementById('timeline-slider');
       slider.value = progress;
       document.getElementById('slider-label').textContent = `Day ${data.day} / 10`;
 
+      // Update Right Panel
       document.getElementById('panel-badge').textContent = data.badge;
       document.getElementById('panel-badge').className = `px-2.5 py-0.5 rounded text-xs font-bold ${data.badgeClass}`;
       document.getElementById('panel-title').textContent = data.title;
@@ -683,6 +734,7 @@
       document.getElementById('panel-meals').textContent = data.meals;
       document.getElementById('panel-action').textContent = data.action;
 
+      // Highlight active Day Tab
       document.querySelectorAll('.day-tab').forEach(tab => {
         const tabDay = parseInt(tab.getAttribute('data-day'));
         if (tabDay === dayIdx) {
@@ -693,16 +745,38 @@
       });
     }
 
+    // Controls
     function togglePlay() {
+      if (animProgress >= 9) {
+        animProgress = 0; // 如果在終點則重頭開始
+      }
       isPlaying = !isPlaying;
-      document.getElementById('play-icon').textContent = isPlaying ? '[暫停動畫]' : '[繼續播放]';
+      document.getElementById('play-icon').textContent = isPlaying ? '[暫停動畫]' : '[▶ 播放動畫]';
       document.getElementById('btn-play').className = isPlaying
         ? 'px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md'
         : 'px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md';
     }
 
+    function stepDay(delta) {
+      // 手動單日步進時暫停動畫，讓使用者靜心閱讀
+      if (isPlaying) {
+        isPlaying = false;
+        document.getElementById('play-icon').textContent = '[▶ 繼續播放]';
+        document.getElementById('btn-play').className = 'px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md';
+      }
+      let currentDay = Math.round(animProgress);
+      let nextDay = currentDay + delta;
+      if (nextDay < 0) nextDay = 0;
+      if (nextDay > 9) nextDay = 9;
+      animProgress = nextDay;
+      updateDOMUI(animProgress);
+    }
+
     function resetAnimation() {
       animProgress = 0;
+      isPlaying = false;
+      document.getElementById('play-icon').textContent = '[▶ 播放動畫]';
+      document.getElementById('btn-play').className = 'px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-md';
       updateDOMUI(0);
     }
 
@@ -716,13 +790,16 @@
     }
 
     function jumpToDay(dayIndex) {
+      // 點選右側日期按鈕切換日期並暫停
       animProgress = dayIndex;
       updateDOMUI(animProgress);
     }
 
+    // Init
     window.onload = () => {
       resizeCanvas();
       updateDOMUI(0);
+      document.getElementById('play-icon').textContent = '[▶ 播放動畫]';
       requestAnimationFrame(render);
     };
   </script>
