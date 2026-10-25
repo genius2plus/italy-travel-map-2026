@@ -38,7 +38,7 @@
           特選義大利 10 日遊：每日行進與維安警戒動態地圖
         </h1>
         <p class="text-slate-400 text-xs md:text-sm mt-0.5">
-          隨時間軸自動巡航｜同步觀測法國生活成本動亂波及義大利各站（米蘭、羅馬）之即時風險
+          隨時間軸自動巡航｜同步觀測法國生活成本動亂波及義大利各站（米蘭、羅馬）之即時風險與當地氣候
         </p>
       </div>
 
@@ -72,6 +72,7 @@
           <div class="flex items-center gap-3 text-xs">
             <span class="text-red-400 font-semibold">[紅色: 騷亂波及區]</span>
             <span class="text-amber-400 font-semibold">[黃色: 維安加強區]</span>
+            <span class="text-sky-400 font-semibold">[冰藍: 多洛米蒂-3°C]</span>
             <span class="text-emerald-400 font-semibold">[綠色: 平穩路線]</span>
           </div>
         </div>
@@ -81,10 +82,14 @@
           <canvas id="mapCanvas" class="w-full h-full block"></canvas>
 
           <!-- Floating Map Overlay HUD -->
-          <div class="absolute top-3 left-3 bg-slate-900/85 backdrop-blur border border-slate-700/80 rounded-xl p-3 shadow-lg pointer-events-none max-w-[260px]">
+          <div class="absolute top-3 left-3 bg-slate-900/85 backdrop-blur border border-slate-700/80 rounded-xl p-3 shadow-lg pointer-events-none max-w-[270px]">
             <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">當前動態進度</div>
             <div id="hud-day-title" class="text-sm font-bold text-white mt-0.5">第 1 天 (11/03)</div>
             <div id="hud-city" class="text-xs text-indigo-300 font-medium mt-1">台北 ➔ 羅馬（飛行中）</div>
+            <div id="hud-temp" class="text-xs text-sky-300 font-bold mt-0.5 flex items-center gap-1">
+              <span>[氣溫]</span>
+              <span id="hud-temp-val">機艙 23°C</span>
+            </div>
             <div id="hud-transport" class="text-[11px] text-slate-400 mt-0.5">交通：中華航空 CI075</div>
             <div class="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between">
               <span class="text-[11px] text-slate-400">當前危安等級：</span>
@@ -113,7 +118,7 @@
             <div class="flex justify-between text-[10px] text-slate-400 mt-1 px-1">
               <span>11/03 台北</span>
               <span>11/05 翡冷翠</span>
-              <span>11/07 多洛米蒂</span>
+              <span>11/07 多洛米蒂[-3°C]</span>
               <span class="text-red-400 font-bold">11/09 米蘭[警戒]</span>
               <span>11/11 羅馬</span>
             </div>
@@ -156,7 +161,21 @@
                 <span>[當日治安與暴動外溢檢測]</span>
               </h3>
               <p id="panel-riot-status" class="text-slate-300 mt-1 text-xs leading-relaxed">
-                國際航線與機場管制區高度安全，義大利羅馬達文西機場（FCO）運作正常，無抗議活動干擾。
+                國際航線與機場管制區高度安全，義大利境內各大機場（FCO）運作正常，無抗議活動干擾。
+              </p>
+            </div>
+
+            <div id="panel-weather-box" class="p-3 bg-sky-950/40 border border-sky-500/30 rounded-xl">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-sky-300 flex items-center gap-1.5">
+                  <span>[當地氣候與穿搭體感]</span>
+                </span>
+                <span id="panel-temp-pill" class="px-2 py-0.5 rounded text-[11px] font-bold bg-sky-500/20 text-sky-200 border border-sky-400/30">
+                  機艙 22°C
+                </span>
+              </div>
+              <p id="panel-weather-advice" class="text-xs text-slate-300 mt-1.5 leading-relaxed">
+                機艙恆溫舒適但空氣乾燥，建議長褲配薄外套，多補充水分。
               </p>
             </div>
 
@@ -187,43 +206,43 @@
           <div class="grid grid-cols-5 gap-1.5 text-center text-xs">
             <button onclick="jumpToDay(0)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="0">
               <div class="font-bold">D1</div>
-              <div class="text-[10px] text-slate-400">啟程</div>
+              <div class="text-[10px] text-slate-400">啟程 23°C</div>
             </button>
             <button onclick="jumpToDay(1)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="1">
               <div class="font-bold">D2</div>
-              <div class="text-[10px] text-emerald-400">西恩納</div>
+              <div class="text-[10px] text-emerald-400">西恩納 14°C</div>
             </button>
             <button onclick="jumpToDay(2)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="2">
               <div class="font-bold">D3</div>
-              <div class="text-[10px] text-emerald-400">翡冷翠</div>
+              <div class="text-[10px] text-emerald-400">翡冷翠 15°C</div>
             </button>
             <button onclick="jumpToDay(3)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="3">
               <div class="font-bold">D4</div>
-              <div class="text-[10px] text-emerald-400">威尼斯</div>
+              <div class="text-[10px] text-emerald-400">威尼斯 13°C</div>
             </button>
-            <button onclick="jumpToDay(4)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="4">
+            <button onclick="jumpToDay(4)" class="day-tab p-2 rounded-lg bg-sky-950/80 hover:bg-sky-900/80 text-sky-300 transition border border-sky-500/50" data-day="4">
               <div class="font-bold">D5</div>
-              <div class="text-[10px] text-emerald-400">多洛米蒂</div>
+              <div class="text-[10px] text-sky-300 font-bold">多洛米蒂 -3°C</div>
             </button>
             <button onclick="jumpToDay(5)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="5">
               <div class="font-bold">D6</div>
-              <div class="text-[10px] text-emerald-400">維洛納</div>
+              <div class="text-[10px] text-emerald-400">維洛納 12°C</div>
             </button>
             <button onclick="jumpToDay(6)" class="day-tab p-2 rounded-lg bg-red-950/80 hover:bg-red-900/80 text-red-300 transition border border-red-500/50 shadow" data-day="6">
               <div class="font-bold">D7</div>
-              <div class="text-[10px] text-red-400 font-bold">米蘭[警戒]</div>
+              <div class="text-[10px] text-red-400 font-bold">米蘭 12°C[警]</div>
             </button>
             <button onclick="jumpToDay(7)" class="day-tab p-2 rounded-lg bg-amber-950/80 hover:bg-amber-900/80 text-amber-300 transition border border-amber-500/50" data-day="7">
               <div class="font-bold">D8</div>
-              <div class="text-[10px] text-amber-400">羅馬[中度]</div>
+              <div class="text-[10px] text-amber-400">羅馬 16°C</div>
             </button>
             <button onclick="jumpToDay(8)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="8">
               <div class="font-bold">D9</div>
-              <div class="text-[10px] text-slate-400">機場</div>
+              <div class="text-[10px] text-slate-400">機場 15°C</div>
             </button>
             <button onclick="jumpToDay(9)" class="day-tab p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition border border-transparent" data-day="9">
               <div class="font-bold">D10</div>
-              <div class="text-[10px] text-slate-400">抵台</div>
+              <div class="text-[10px] text-slate-400">抵台 25°C</div>
             </button>
           </div>
         </div>
@@ -240,6 +259,8 @@
         title: "第 1 天：台北啟程 ✈ 航向義大利 (CI075)",
         badge: "[綠燈平穩 / 安全飛行]",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        temp: "機艙恆溫 23°C",
+        weather: "機內恆溫乾燥，建議長褲搭配保暖薄外套，隨身攜帶保濕護唇膏。",
         itinerary: "台北桃園國際機場集合，搭乘中華航空 CI075 直飛羅馬達文西國際機場（23:25起飛，飛行時間約 14 小時 40 分）。夜宿機上。",
         riotStatus: "國際航線與機場管制區高度安全，義大利羅馬達文西機場（FCO）運作正常，無抗議活動干擾。",
         hotel: "機上過夜 (華航 CI075 航班)",
@@ -255,6 +276,8 @@
         title: "第 2 天：抵達羅馬 ➔ 托斯卡尼山城 西恩納 (Siena)",
         badge: "[綠燈安全 / 中古古城]",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        temp: "6°C ~ 14°C (托斯卡尼秋涼)",
+        weather: "清晨抵達羅馬微涼約 7°C，午後西恩納山城約 14°C，日夜溫差大，建議針織衫搭防風外套洋蔥式穿法。",
         itinerary: "07:05 抵達羅馬機場，專車北上 235km 前往西恩納。遊覽世界遺產貝殼田野廣場、歡樂噴泉、曼吉亞塔與西恩納主教堂。",
         riotStatus: "托斯卡尼山城生活步調閒適純樸，遠離大城市政治動亂，毫無暴力外溢跡象，治安穩定。",
         hotel: "Four Points by Sheraton Siena (Tel: +39 0577 5755)",
@@ -270,6 +293,8 @@
         title: "第 3 天：西恩納 ➔ 文藝復興百花之城 佛羅倫斯 (Firenze)",
         badge: "[綠燈正常 / 景點維安]",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        temp: "8°C ~ 15°C (文藝深秋)",
+        weather: "秋意濃郁早晚溫差顯著，市區偶有陣雨，建議內搭長袖配保暖風衣或大衣，隨身備折疊傘。",
         itinerary: "行車 78km 抵達佛羅倫斯。市區觀光：聖母百花大教堂、天堂之門洗禮堂、領主廣場露天雕塑大衛像、老橋及但丁之家。",
         riotStatus: "市區主要景點均有憲警常態駐守巡邏，未受法國暴力外溢波及；夜宿佛羅倫斯近郊坎皮比森齊奧，避開市區繁雜。",
         hotel: "Starhotels Vespucci Florence (Tel: +39 055 89551)",
@@ -285,6 +310,8 @@
         title: "第 4 天：托斯卡尼小鎮 ➔ 水都威尼斯 (Venezia)",
         badge: "[綠燈安全 / 水都無阻]",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        temp: "6°C ~ 13°C (海風濕冷)",
+        weather: "水都運河水氣重且海風吹拂體感偏冷（體感約 5°C），搭乘貢多拉必戴圍巾，穿著防水防滑鞋預防潮濕積水。",
         itinerary: "行車 260km 抵達威尼斯近郊，搭船前往慕拉諾水晶玻璃島、聖馬可廣場、道奇宮、嘆息橋，特別安排 5 人一艘貢多拉鳳尾船漫遊水渠。",
         riotStatus: "水上城市全無陸路車輛，天然屏障隔絕街頭抗爭，治安良好；當晚入住陸地梅斯特雷（Mestre）。",
         hotel: "Hotel Ambasciatori Mestre (Tel: +39 041 531 0699)",
@@ -300,6 +327,8 @@
         title: "第 5 天：阿爾卑斯仙境 多洛米蒂山脈 (Cortina & San Candido)",
         badge: "[極度安全 / 阿爾卑斯仙境]",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        temp: "-3°C ~ 6°C (初冬冰雪急凍！全團最冷點)",
+        weather: "【全團防寒最高等級】阿爾卑斯高山已下雪結冰！必備厚重羽絨大衣、毛帽、手套、發熱衣與抓地防滑雪靴！",
         itinerary: "深入阿爾卑斯多洛米蒂山區（世界自然遺產），造訪冬奧滑雪勝地科蒂納（148km）與義奧邊境童話小鎮聖坎迪多（37km），晚間返回近郊（174km）。",
         riotStatus: "阿爾卑斯高山度假山城，全義大利治安最優良區域，環境清新祥和，毫無任何政治或社會動亂。",
         hotel: "Four Points by Sheraton Venice Mestre (Tel: +39 041 3140500)",
@@ -315,6 +344,8 @@
         title: "第 6 天：威尼斯 ➔ 愛之城維洛納 (Verona) ➔ 米蘭近郊",
         badge: "[綠燈安全 / 機場特區避難]",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        temp: "5°C ~ 12°C (平原涼爽)",
+        weather: "午後維洛納古城約 12°C 體感涼爽舒適，晚間米蘭近郊降至 5°C，入夜需加穿防寒厚外套。",
         itinerary: "行車 116km 前往莎翁愛情名城維洛納（羅馬露天圓形劇場、茱麗葉故居、百草廣場）。午後續行 157km 抵達米蘭近郊入住機場飯店。",
         riotStatus: "維洛納古城安全無礙；今晚特別下榻米蘭市區外圍 50km 之馬爾彭薩機場特區，完全避開市中心集會騷亂！",
         hotel: "Crowne Plaza Milan - Malpensa Airport (Tel: +39 0331 21161)",
@@ -330,6 +361,8 @@
         title: "第 7 天：潮流米蘭自由單飛 ➔ 搭法拉利高鐵奔馳至羅馬",
         badge: "[高警戒重點！法國外溢騷亂熱區]",
         badgeClass: "bg-red-500/30 text-red-300 border border-red-500/50 font-bold animate-pulse",
+        temp: "5°C ~ 12°C (波河平原深秋濕冷)",
+        weather: "清晨平原常有薄霧微冷，大教堂周圍徒步約 10°C，建議大衣外套搭配保暖圍巾，走路活動舒適。",
         itinerary: "米蘭市區觀光：世界最大哥德式米蘭大教堂、艾曼紐二世拱廊街、斯卡拉歌劇院。自由單飛時間，下午 15:40 搭乘法拉利高速火車直抵羅馬（19:09）。",
         riotStatus: "【全團核心警戒日】法國暴動外溢至米蘭大教堂與蒙特拿破崙街，曾爆發砸窗與縱火。義國派遣 500 名士兵進駐，市面已平穩但有零星示威風聲。",
         hotel: "Warmthotel Rome (Tel: +39 06 5014283，羅馬南部住宅區)",
@@ -345,6 +378,8 @@
         title: "第 8 天：永恆之都 羅馬全日自由活動 / 自費古羅馬深度遊",
         badge: "[中度警戒 / 首都重兵防衛]",
         badgeClass: "bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold",
+        temp: "7°C ~ 16°C (地中海溫和宜人)",
+        weather: "白天日照溫和約 16°C 舒適宜人，適合整日徒步觀光，入夜降至 8°C 需添保暖外套。",
         itinerary: "全日自由活動，或參加外站自費行程：專車與專業導遊帶隊遊覽梵諦岡聖彼得大教堂、羅馬競技場鬥獸場、許願池、萬神殿與四河噴泉。",
         riotStatus: "羅馬特米尼火車站及威尼斯廣場周遭曾有聲援遊行，警方加強重點古蹟與地鐵站荷槍巡邏，治安總體受控但盤查頻繁。",
         hotel: "Warmthotel Rome (連宿第二晚)",
@@ -360,6 +395,8 @@
         title: "第 9 天：羅馬達文西機場退稅出境 ✈ 台北 (CI076)",
         badge: "[綠燈平穩 / 安全返航]",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        temp: "8°C ~ 15°C",
+        weather: "清晨出發微涼，機場室內暖氣適中，穿著好穿脫之外套便於安檢退稅。",
         itinerary: "早餐後專車前往羅馬達文西國際機場（FCO），辦理海關退稅與登機手續，搭乘 10:25 華航 CI076 直飛台北，夜宿機上。",
         riotStatus: "達文西機場維安等級高，退稅櫃台排隊秩序良好，無抗爭衝擊。",
         hotel: "機上過夜 (華航 CI076 航班)",
@@ -375,6 +412,8 @@
         title: "第 10 天：返抵國門 桃園國際機場 (05:35)",
         badge: "[順利結案 / 平安歸國]",
         badgeClass: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+        temp: "21°C ~ 26°C (台灣溫暖)",
+        weather: "清晨抵台氣溫明顯回升舒適，可更換輕便衣物返家。",
         itinerary: "清晨 05:35 抵達桃園國際機場第一航廈，完成入境手續與行李領取，返回溫暖的家，滿載美好回憶順利結案！",
         riotStatus: "全體團員平安返台。",
         hotel: "溫暖的家",
@@ -404,17 +443,17 @@
     window.addEventListener('resize', resizeCanvas);
 
     const routePoints = [
-      { x: 320, y: 540, label: "羅馬機場 FCO" },
-      { x: 285, y: 390, label: "西恩納 Siena" },
-      { x: 298, y: 345, label: "佛羅倫斯 Florence" },
-      { x: 390, y: 240, label: "威尼斯 Mestre" },
-      { x: 410, y: 175, label: "多洛米蒂 Cortina" },
-      { x: 390, y: 240, label: "威尼斯 Mestre" },
-      { x: 335, y: 240, label: "維洛納 Verona" },
-      { x: 195, y: 220, label: "米蘭 Malpensa" },
-      { x: 235, y: 240, label: "米蘭市中心 Duomo" },
-      { x: 325, y: 485, label: "羅馬市區 Warmthotel" },
-      { x: 310, y: 520, label: "羅馬機場 FCO" }
+      { x: 320, y: 540, label: "羅馬機場 FCO", temp: "8°C~15°C" },
+      { x: 285, y: 390, label: "西恩納 Siena", temp: "6°C~14°C" },
+      { x: 298, y: 345, label: "佛羅倫斯 Florence", temp: "8°C~15°C" },
+      { x: 390, y: 240, label: "威尼斯 Mestre", temp: "6°C~13°C" },
+      { x: 410, y: 175, label: "多洛米蒂 Cortina", temp: "-3°C~6°C ❄" },
+      { x: 390, y: 240, label: "威尼斯 Mestre", temp: "6°C~13°C" },
+      { x: 335, y: 240, label: "維洛納 Verona", temp: "5°C~12°C" },
+      { x: 195, y: 220, label: "米蘭 Malpensa", temp: "5°C~12°C" },
+      { x: 235, y: 240, label: "米蘭市中心 Duomo", temp: "5°C~12°C" },
+      { x: 325, y: 485, label: "羅馬市區 Warmthotel", temp: "7°C~16°C" },
+      { x: 310, y: 520, label: "羅馬機場 FCO", temp: "8°C~15°C" }
     ];
 
     const italyBorder = [
@@ -555,6 +594,7 @@
       routePoints.forEach((pt) => {
         const isMilanRiot = (pt.label.includes("米蘭市中心"));
         const isRomeAlert = (pt.label.includes("羅馬市區"));
+        const isDolomitesIce = (pt.label.includes("多洛米蒂"));
 
         ctx.beginPath();
         ctx.arc(pt.x, pt.y, isMilanRiot ? 7 : 5, 0, Math.PI * 2);
@@ -562,6 +602,8 @@
           ctx.fillStyle = '#ef4444';
         } else if (isRomeAlert) {
           ctx.fillStyle = '#f59e0b';
+        } else if (isDolomitesIce) {
+          ctx.fillStyle = '#38bdf8';
         } else {
           ctx.fillStyle = '#10b981';
         }
@@ -570,9 +612,13 @@
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
-        ctx.fillStyle = isMilanRiot ? '#fca5a5' : '#cbd5e1';
+        ctx.fillStyle = isMilanRiot ? '#fca5a5' : isDolomitesIce ? '#bae6fd' : '#cbd5e1';
         ctx.font = isMilanRiot ? 'bold 11px sans-serif' : '10px sans-serif';
-        ctx.fillText(pt.label, pt.x + 8, pt.y + 3);
+        ctx.fillText(pt.label, pt.x + 8, pt.y - 1);
+
+        ctx.fillStyle = isDolomitesIce ? '#38bdf8' : '#94a3b8';
+        ctx.font = '9px sans-serif';
+        ctx.fillText(pt.temp, pt.x + 8, pt.y + 11);
       });
 
       ctx.save();
@@ -606,6 +652,7 @@
 
       document.getElementById('hud-day-title').textContent = `第 ${data.day} 天 (${data.date.split(' ')[0]})`;
       document.getElementById('hud-city').textContent = data.point.name;
+      document.getElementById('hud-temp-val').textContent = data.temp;
       document.getElementById('hud-transport').textContent = `交通：${data.transport}`;
 
       const badge = document.getElementById('hud-risk-badge');
@@ -631,6 +678,8 @@
       document.getElementById('panel-itinerary').textContent = data.itinerary;
       document.getElementById('panel-riot-status').textContent = data.riotStatus;
       document.getElementById('panel-hotel').textContent = data.hotel;
+      document.getElementById('panel-temp-pill').textContent = data.temp;
+      document.getElementById('panel-weather-advice').textContent = data.weather;
       document.getElementById('panel-meals').textContent = data.meals;
       document.getElementById('panel-action').textContent = data.action;
 
